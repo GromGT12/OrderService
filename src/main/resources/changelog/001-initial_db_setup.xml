@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.15.xsd">
+
+    <!-- Create Order Table -->
+    <changeSet id="createOrderTable" author="Maks">
+        <createTable tableName="orders">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="client_id" type="INTEGER"/>
+            <column name="order_date" type="TIMESTAMP"/>
+            <column name="status" type="VARCHAR(50)"/>
+            <column name="comment" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Create OrderDetails Table -->
+    <changeSet id="createOrderDetailsTable" author="Maks">
+        <createTable tableName="orders_details">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="order_id" type="INTEGER"/>
+            <column name="product_id" type="INTEGER"/>
+            <column name="quantity" type="INTEGER"/>
+            <column name="total_price" type="DECIMAL(10,2)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Create Product Table -->
+    <changeSet id="createProductTable" author="Maks">
+        <createTable tableName="product">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="flavour_category_id" type="INTEGER"/>
+            <column name="price" type="DECIMAL(10,2)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Create FlavourCategory Table -->
+    <changeSet id="createFlavourCategoryTable" author="Maks">
+        <createTable tableName="flavour_category">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Create Client Table -->
+    <changeSet id="createClientTable" author="Maks">
+        <createTable tableName="client">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="surname" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="address" type="VARCHAR(255)"/>
+            <column name="country" type="VARCHAR(255)"/>
+            <column name="phone_number" type="VARCHAR(20)"/>
+            <column name="role_id" type="INTEGER"/>
+            <column name="blocked" type="BOOLEAN"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Add Foreign Key Constraint for OrderDetails Table -->
+    <changeSet id="addForeignKeyConstraint" author="Maks">
+        <addForeignKeyConstraint baseTableName="order_details"
+                                 baseColumnNames="order_id"
+                                 constraintName="fk_order_details_order_id"
+                                 referencedTableName="order"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <!-- Add Foreign Key Constraint for OrderDetails Table -->
+    <changeSet id="addForeignKeyConstraintProduct" author="Maks">
+        <addForeignKeyConstraint baseTableName="order_details"
+                                 baseColumnNames="product_id"
+                                 constraintName="fk_order_details_product_id"
+                                 referencedTableName="product"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <!-- Add Foreign Key Constraint for Product Table -->
+    <changeSet id="addForeignKeyConstraintFlavourCategory" author="Maks">
+        <addForeignKeyConstraint baseTableName="product"
+                                 baseColumnNames="flavour_category_id"
+                                 constraintName="fk_product_flavour_category_id"
+                                 referencedTableName="flavour_category"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>
+
