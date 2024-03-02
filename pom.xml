@@ -8,13 +8,14 @@
 		<version>3.1.7</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.sweet_bites_order_service</groupId>
-	<artifactId>Order_service</artifactId>
+	<groupId>${project.groupId}</groupId>
+	<artifactId>Delivery_service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>order_service</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
+		<project.groupId>com.sweet_bites_delivery_service</project.groupId>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -75,7 +76,7 @@
 				<version>4.2.0</version>
 				<configuration>
 					<driver>org.postgresql.Driver</driver>
-					<url>jdbc:postgresql://localhost:5432/sweet_bites_order_service</url>
+					<url>jdbc:postgresql://localhost:5432/sweet_bites_delivery_service</url>
 					<username>pingwit</username>
 					<password>pingwit_password</password>
 					<outputChangeLogFile>src/main/resources/liquibase-outputChangeLog.xml</outputChangeLogFile>

@@ -1,12 +1,12 @@
-package com.sweet_bites_order_service;
+package com.sweet_bites_delivery_service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class OrderServiceApplication {
+public class DeliveryServiceApplication {
     public static void main(String[] args) {
-        SpringApplication.run(OrderServiceApplication.class, args);
-    }
+        SpringApplication.run(DeliveryServiceApplication.class, args);
 
+    }
 }
