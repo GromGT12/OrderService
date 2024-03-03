@@ -4,7 +4,7 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
 
-    <changeSet author="Maks" id="insert_data_to_orders_table">
-        <sqlFile path="orders_date.sql" relativeToChangelogFile="true"/>
+    <changeSet author="Maks" id="insert_data_to_delivery_table">
+        <sqlFile path="delivery_date.sql" relativeToChangelogFile="true"/>
     </changeSet>
 </databaseChangeLog>

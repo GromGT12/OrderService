@@ -4,23 +4,9 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.15.xsd">
 
-    
     <!-- Create Delivery Table -->
-    <changeSet id="createOrderTable" author="Maks">
-        <createTable tableName="orders">
-            <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="client_id" type="INTEGER"/>
-            <column name="order_date" type="TIMESTAMP"/>
-            <column name="status" type="VARCHAR(50)"/>
-            <column name="comment" type="VARCHAR(255)"/>
-        </createTable>
-    </changeSet>
-
-    <!-- Create OrdersDetails Table -->
-    <changeSet id="createOrderDetailsTable" author="Maks">
-        <createTable tableName="orders_details">
+    <changeSet id="createDeliveryTable" author="Maks">
+        <createTable tableName="delivery">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -28,27 +14,22 @@
             <column name="product_id" type="INTEGER"/>
             <column name="quantity" type="INTEGER"/>
             <column name="total_price" type="DECIMAL(10,2)"/>
+            <column name="delivery_date" type="TIMESTAMP"/>
+            <column name="delivery_status" type="VARCHAR(50)"/>
+            <column name="delivery_address" type="VARCHAR(255)"/>
+            <column name="client_id" type="INTEGER"/>
+            <column name="client_name" type="VARCHAR(100)"/>
+            <column name="client_address" type="VARCHAR(255)"/>
+            <column name="delivery_method" type="VARCHAR(50)"/>
         </createTable>
     </changeSet>
 
-
-
-    <!-- Add Foreign Key Constraint for OrdersDetails Table -->
-    <changeSet id="addForeignKeyConstraint" author="Maks">
-        <addForeignKeyConstraint baseTableName="order_details"
+    <!-- Add Foreign Key Constraint for Delivery Table -->
+    <changeSet id="addForeignKeyConstraintDelivery" author="Maks">
+        <addForeignKeyConstraint baseTableName="delivery"
                                  baseColumnNames="order_id"
-                                 constraintName="fk_order_details_order_id"
-                                 referencedTableName="order"
-                                 referencedColumnNames="id"/>
-    </changeSet>
-
-    <!-- Add Foreign Key Constraint for OrdersDetails Table -->
-    <changeSet id="addForeignKeyConstraintProduct" author="Maks">
-        <addForeignKeyConstraint baseTableName="order_details"
-                                 baseColumnNames="product_id"
-                                 constraintName="fk_order_details_product_id"
-                                 referencedTableName="product"
+                                 constraintName="fk_delivery_order_id"
+                                 referencedTableName="delivery"
                                  referencedColumnNames="id"/>
     </changeSet>
 </databaseChangeLog>
-

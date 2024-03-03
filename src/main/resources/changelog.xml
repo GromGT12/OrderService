@@ -5,6 +5,5 @@
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
 
     <include file="changelog/001-initial_db_setup.xml" relativeToChangelogFile="true"/>
-    <include file="changelog/002-insert_orders_details_data.xml" relativeToChangelogFile="true"/>
-    <include file="changelog/003-insert_orders_data.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/002-insert_delivery_data.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
