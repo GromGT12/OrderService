@@ -1,58 +1,44 @@
 package com.sweet_bites_delivery_service.dto;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 
 public class DeliveryDTO {
-    private Long id;
-    private Long orderId;
-    private Long productId;
+    private Integer id;
+    private Integer orderId;
+    private Integer productId;
     private Integer quantity;
-    private Double totalPrice;
+    private BigDecimal totalPrice;
     private Date deliveryDate;
     private String deliveryStatus;
     private String deliveryAddress;
-    private Long clientId;
+    private Integer clientId;
     private String clientName;
     private String clientAddress;
     private String deliveryMethod;
 
-    public DeliveryDTO(Long id, Long orderId, Long productId, Integer quantity, Double totalPrice, Date deliveryDate, String deliveryStatus, String deliveryAddress, Long clientId, String clientName, String clientAddress, String deliveryMethod) {
-        this.id = id;
-        this.orderId = orderId;
-        this.productId = productId;
-        this.quantity = quantity;
-        this.totalPrice = totalPrice;
-        this.deliveryDate = deliveryDate;
-        this.deliveryStatus = deliveryStatus;
-        this.deliveryAddress = deliveryAddress;
-        this.clientId = clientId;
-        this.clientName = clientName;
-        this.clientAddress = clientAddress;
-        this.deliveryMethod = deliveryMethod;
-    }
-
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Long getOrderId() {
+    public Integer getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Long orderId) {
+    public void setOrderId(Integer orderId) {
         this.orderId = orderId;
     }
 
-    public Long getProductId() {
+    public Integer getProductId() {
         return productId;
     }
 
-    public void setProductId(Long productId) {
+    public void setProductId(Integer productId) {
         this.productId = productId;
     }
 
@@ -64,11 +50,11 @@ public class DeliveryDTO {
         this.quantity = quantity;
     }
 
-    public Double getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Double totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
 
@@ -96,11 +82,11 @@ public class DeliveryDTO {
         this.deliveryAddress = deliveryAddress;
     }
 
-    public Long getClientId() {
+    public Integer getClientId() {
         return clientId;
     }
 
-    public void setClientId(Long clientId) {
+    public void setClientId(Integer clientId) {
         this.clientId = clientId;
     }
 

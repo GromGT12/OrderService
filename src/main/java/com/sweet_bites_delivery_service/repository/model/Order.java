@@ -1,33 +1,52 @@
-package com.sweet_bites_delivery_service.dto;
+package com.sweet_bites_delivery_service.repository.model;
 
+import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
-public class OrderDTO {
-    private Integer id;
-    private Integer clientId;
+@Entity
+@Table(name = "orders")
+public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "client_id")
+    private Long clientId;
+
+    @Column(name = "order_date")
     private Date orderDate;
-    private Double totalPrice;
+
+    @Column(name = "total_price")
+    private BigDecimal totalPrice;
+
+    @Column(name = "status")
     private String status;
+
+    @Column(name = "delivery_address")
     private String deliveryAddress;
+
+    @Column(name = "payment_status")
     private String paymentStatus;
 
-    public OrderDTO() {
-    }
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<Delivery> deliveries;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getClientId() {
+    public Long getClientId() {
         return clientId;
     }
 
-    public void setClientId(Integer clientId) {
+    public void setClientId(Long clientId) {
         this.clientId = clientId;
     }
 
@@ -39,11 +58,11 @@ public class OrderDTO {
         this.orderDate = orderDate;
     }
 
-    public Double getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Double totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
 
@@ -71,22 +90,30 @@ public class OrderDTO {
         this.paymentStatus = paymentStatus;
     }
 
+    public List<Delivery> getDeliveries() {
+        return deliveries;
+    }
+
+    public void setDeliveries(List<Delivery> deliveries) {
+        this.deliveries = deliveries;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        OrderDTO orderDTO = (OrderDTO) o;
-        return Objects.equals(id, orderDTO.id) && Objects.equals(clientId, orderDTO.clientId) && Objects.equals(orderDate, orderDTO.orderDate) && Objects.equals(totalPrice, orderDTO.totalPrice) && Objects.equals(status, orderDTO.status) && Objects.equals(deliveryAddress, orderDTO.deliveryAddress) && Objects.equals(paymentStatus, orderDTO.paymentStatus);
+        Order order = (Order) o;
+        return Objects.equals(id, order.id) && Objects.equals(clientId, order.clientId) && Objects.equals(orderDate, order.orderDate) && Objects.equals(totalPrice, order.totalPrice) && Objects.equals(status, order.status) && Objects.equals(deliveryAddress, order.deliveryAddress) && Objects.equals(paymentStatus, order.paymentStatus) && Objects.equals(deliveries, order.deliveries);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, clientId, orderDate, totalPrice, status, deliveryAddress, paymentStatus);
+        return Objects.hash(id, clientId, orderDate, totalPrice, status, deliveryAddress, paymentStatus, deliveries);
     }
 
     @Override
     public String toString() {
-        return "OrderDTO{" +
+        return "Order{" +
                 "id=" + id +
                 ", clientId=" + clientId +
                 ", orderDate=" + orderDate +
@@ -94,6 +121,7 @@ public class OrderDTO {
                 ", status='" + status + '\'' +
                 ", deliveryAddress='" + deliveryAddress + '\'' +
                 ", paymentStatus='" + paymentStatus + '\'' +
+                ", deliveries=" + deliveries +
                 '}';
     }
 }
