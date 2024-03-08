@@ -171,4 +171,12 @@ public class Delivery {
                 ", deliveryMethod='" + deliveryMethod + '\'' +
                 '}';
     }
+
+    public Integer getOrderId() {
+        return Math.toIntExact((order != null) ? order.getId() : null);
+    }
+
+    public void setOrderId(Integer orderId) {
+
+    }
 }

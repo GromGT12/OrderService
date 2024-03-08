@@ -1,4 +1,5 @@
 package com.sweet_bites_delivery_service.service.impl;
+
 import com.sweet_bites_delivery_service.dto.DeliveryDTO;
 import com.sweet_bites_delivery_service.exception.DeliveryNotFoundException;
 import com.sweet_bites_delivery_service.mapper.DeliveryMapper;
@@ -10,60 +11,102 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
+@Transactional(readOnly = true)
 public class DeliveryServiceImpl implements DeliveryService {
 
     private final DeliveryRepository deliveryRepository;
-    private final DeliveryMapper deliveryMapper;
     private final DeliveryValidator deliveryValidator;
+    private final DeliveryMapper deliveryMapper;
 
     @Autowired
-    public DeliveryServiceImpl(DeliveryRepository deliveryRepository, DeliveryMapper deliveryMapper, DeliveryValidator deliveryValidator) {
+    public DeliveryServiceImpl(DeliveryRepository deliveryRepository, DeliveryValidator deliveryValidator, DeliveryMapper deliveryMapper) {
         this.deliveryRepository = deliveryRepository;
-        this.deliveryMapper = deliveryMapper;
         this.deliveryValidator = deliveryValidator;
+        this.deliveryMapper = deliveryMapper;
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public DeliveryDTO getDeliveryById(Long id) {
-        Delivery delivery = (Delivery) deliveryRepository.findById(id)
-                .orElseThrow(() -> new DeliveryNotFoundException("Delivery not found with id: " + id));
-        return deliveryMapper.toDeliveryDTO(delivery);
+    public DeliveryDTO getDeliveryByOrderId(Integer orderId) {
+        Delivery delivery = deliveryRepository.findByOrderId(orderId);
+        return delivery != null ? deliveryMapper.toDeliveryDTO(delivery) : null;
     }
-
 
     @Override
     @Transactional
-    public void createDelivery(DeliveryDTO deliveryDTO) {
-        deliveryValidator.validateDelivery(deliveryDTO);
+    public DeliveryDTO createDelivery(DeliveryDTO deliveryDTO) {
+        deliveryValidator.validate(deliveryDTO); // Валидация доставки перед сохранением
         Delivery delivery = deliveryMapper.toDelivery(deliveryDTO);
-        deliveryRepository.save(delivery);
-    }
-
-    @Override
-    public void updateDelivery(DeliveryDTO deliveryDTO) {
-
-    }
-
-    @Override
-    public void deleteDelivery(Integer id) {
-        @Transactional
-        public void deleteDelivery(Long id) {
-            Delivery delivery = (Delivery) deliveryRepository.findById(id)
-                    .orElseThrow(() -> new DeliveryNotFoundException("Delivery not found with id: " + id));
-            deliveryRepository.delete((DeliveryRepository) delivery);
+        Delivery savedDelivery = deliveryRepository.save(delivery);
+        return deliveryMapper.toDeliveryDTO(savedDelivery);
     }
 
     @Override
     @Transactional
-    public void updateDelivery(Long id, DeliveryDTO deliveryDTO) {
-        deliveryValidator.validateDelivery(deliveryDTO);
-        Delivery existingDelivery = deliveryRepository.findById(id)
-                .orElseThrow(() -> new DeliveryNotFoundException("Delivery not found with id: " + id));
+    public DeliveryDTO updateDelivery(DeliveryDTO deliveryDTO) {
+        Delivery existingDelivery = deliveryRepository.findById(deliveryDTO.getId())
+                .orElseThrow(() -> new DeliveryNotFoundException("Delivery not found with id: " + deliveryDTO.getId()));
+
+        deliveryValidator.validate(deliveryDTO);
         deliveryMapper.updateDeliveryFromDto(deliveryDTO, existingDelivery);
-        deliveryRepository.save(existingDelivery);
+        Delivery updatedDelivery = deliveryRepository.save(existingDelivery);
+        return deliveryMapper.toDeliveryDTO(updatedDelivery);
     }
 
+    @Override
+    @Transactional
+    public DeliveryDTO deleteDeliveryByOrderId(Integer orderId) {
+        Delivery delivery = deliveryRepository.findByOrderId(orderId);
+        if (delivery != null) {
+            deliveryRepository.delete(delivery);
+            return deliveryMapper.toDeliveryDTO(delivery);
+        }
+        return null;
+    }
 
+    @Override
+    public List<DeliveryDTO> getDeliveriesByClientId(Integer clientId) {
+        List<Delivery> deliveries = deliveryRepository.findByClientId(clientId);
+        return deliveries.stream()
+                .map(deliveryMapper::toDeliveryDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<DeliveryDTO> getDeliveriesByStatus(String deliveryStatus) {
+        List<Delivery> deliveries = deliveryRepository.findByDeliveryStatus(deliveryStatus);
+        return deliveries.stream()
+                .map(deliveryMapper::toDeliveryDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<DeliveryDTO> getDeliveriesByDateRange(Date startDate, Date endDate) {
+        List<Delivery> deliveries = deliveryRepository.findByDeliveryDateBetween(startDate, endDate);
+        return deliveries.stream()
+                .map(deliveryMapper::toDeliveryDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<DeliveryDTO> getDeliveriesByProductId(Integer productId) {
+        List<Delivery> deliveries = deliveryRepository.findByProductId(productId);
+        return deliveries.stream()
+                .map(deliveryMapper::toDeliveryDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public int getDeliveryCountByClientId(Integer clientId) {
+        return deliveryRepository.countByClientId(clientId);
+    }
+
+    @Override
+    public int getDeliveryCountByStatus(String deliveryStatus) {
+        return deliveryRepository.countByDeliveryStatus(deliveryStatus);
+    }
 }

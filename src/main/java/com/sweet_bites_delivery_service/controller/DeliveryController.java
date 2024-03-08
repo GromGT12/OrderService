@@ -3,6 +3,7 @@ package com.sweet_bites_delivery_service.controller;
 import com.sweet_bites_delivery_service.dto.DeliveryDTO;
 import com.sweet_bites_delivery_service.service.DeliveryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,25 +16,30 @@ public class DeliveryController {
 
     @GetMapping("/{id}")
     public ResponseEntity<DeliveryDTO> getDeliveryById(@PathVariable Long id) {
-        // Реализация метода для получения информации о доставке по идентификатору
-        return null;
+        DeliveryDTO deliveryDTO = deliveryService.getDeliveryById(id);
+        if (deliveryDTO != null) {
+            return new ResponseEntity<>(deliveryDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping("/")
     public ResponseEntity<Void> createDelivery(@RequestBody DeliveryDTO deliveryDTO) {
-        // Реализация метода для создания новой доставки
-        return null;
+        deliveryService.createDelivery(deliveryDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateDelivery(@PathVariable Long id, @RequestBody DeliveryDTO deliveryDTO) {
-        // Реализация метода для обновления информации о доставке
-        return null;
+    public ResponseEntity<Void> updateDelivery(@PathVariable Integer id, @RequestBody DeliveryDTO deliveryDTO) {
+        deliveryDTO.setId(id);
+        deliveryService.updateDelivery(deliveryDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteDelivery(@PathVariable Long id) {
-        // Реализация метода для удаления доставки
-        return null;
+        deliveryService.deleteDelivery(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

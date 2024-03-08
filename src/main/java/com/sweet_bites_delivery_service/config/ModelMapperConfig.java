@@ -1,14 +1,14 @@
 package com.sweet_bites_delivery_service.config;
-
+import com.sweet_bites_delivery_service.mapper.OrderMapper;
+import org.mapstruct.factory.Mappers;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.modelmapper.ModelMapper;
 
 @Configuration
-public class ModelMapperConfig {
+public class ModelMapperConfig{
 
     @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
+    public OrderMapper orderMapper() {
+        return Mappers.getMapper(OrderMapper.class);
     }
 }
