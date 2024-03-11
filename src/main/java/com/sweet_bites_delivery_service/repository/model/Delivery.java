@@ -1,4 +1,5 @@
 package com.sweet_bites_delivery_service.repository.model;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;

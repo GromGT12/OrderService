@@ -3,9 +3,10 @@ package com.sweet_bites_delivery_service.controller;
 import com.sweet_bites_delivery_service.dto.DeliveryDTO;
 import com.sweet_bites_delivery_service.service.DeliveryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/deliveries")
@@ -15,31 +16,53 @@ public class DeliveryController {
     private DeliveryService deliveryService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<DeliveryDTO> getDeliveryById(@PathVariable Long id) {
-        DeliveryDTO deliveryDTO = deliveryService.getDeliveryById(id);
-        if (deliveryDTO != null) {
-            return new ResponseEntity<>(deliveryDTO, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public DeliveryDTO getDeliveryById(@PathVariable Integer id) {
+        return deliveryService.getDeliveryById(id);
     }
 
     @PostMapping("/")
-    public ResponseEntity<Void> createDelivery(@RequestBody DeliveryDTO deliveryDTO) {
-        deliveryService.createDelivery(deliveryDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public DeliveryDTO createDelivery(@RequestBody DeliveryDTO deliveryDTO) {
+        return deliveryService.createDelivery(deliveryDTO);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateDelivery(@PathVariable Integer id, @RequestBody DeliveryDTO deliveryDTO) {
-        deliveryDTO.setId(id);
-        deliveryService.updateDelivery(deliveryDTO);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public DeliveryDTO updateDelivery(@PathVariable Integer id, @RequestBody DeliveryDTO deliveryDTO) {
+        deliveryDTO.setId(Long.valueOf(id));
+        return deliveryService.updateDelivery(deliveryDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDelivery(@PathVariable Long id) {
+    public void deleteDelivery(@PathVariable Integer id) {
         deliveryService.deleteDelivery(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/byClientId/{clientId}")
+    public List<DeliveryDTO> getDeliveriesByClientId(@PathVariable Integer clientId) {
+        return deliveryService.getDeliveriesByClientId(clientId);
+    }
+
+    @GetMapping("/byStatus/{status}")
+    public List<DeliveryDTO> getDeliveriesByStatus(@PathVariable String status) {
+        return deliveryService.getDeliveriesByStatus(status);
+    }
+
+    @GetMapping("/byDateRange")
+    public List<DeliveryDTO> getDeliveriesByDateRange(@RequestParam Date startDate, @RequestParam Date endDate) {
+        return deliveryService.getDeliveriesByDateRange(startDate, endDate);
+    }
+
+    @GetMapping("/byProductId/{productId}")
+    public List<DeliveryDTO> getDeliveriesByProductId(@PathVariable Integer productId) {
+        return deliveryService.getDeliveriesByProductId(productId);
+    }
+
+    @GetMapping("/count/byClientId/{clientId}")
+    public List<DeliveryDTO> getDeliveryCountByClientId(@PathVariable Long clientId) {
+        return deliveryService.getDeliveryCountByClientId((long) Math.toIntExact(clientId));
+    }
+
+    @GetMapping("/count/byStatus/{status}")
+    public int getDeliveryCountByStatus(@PathVariable String status) {
+        return deliveryService.getDeliveryCountByStatus(status);
     }
 }

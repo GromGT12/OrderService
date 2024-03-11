@@ -39,7 +39,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     @Transactional
     public DeliveryDTO createDelivery(DeliveryDTO deliveryDTO) {
-        deliveryValidator.validate(deliveryDTO); // Валидация доставки перед сохранением
+        deliveryValidator.validate(deliveryDTO);
         Delivery delivery = deliveryMapper.toDelivery(deliveryDTO);
         Delivery savedDelivery = deliveryRepository.save(delivery);
         return deliveryMapper.toDeliveryDTO(savedDelivery);
@@ -48,7 +48,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     @Transactional
     public DeliveryDTO updateDelivery(DeliveryDTO deliveryDTO) {
-        Delivery existingDelivery = deliveryRepository.findById(deliveryDTO.getId())
+        Delivery existingDelivery = deliveryRepository.findById(Math.toIntExact(deliveryDTO.getId()))
                 .orElseThrow(() -> new DeliveryNotFoundException("Delivery not found with id: " + deliveryDTO.getId()));
 
         deliveryValidator.validate(deliveryDTO);
@@ -70,10 +70,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Override
     public List<DeliveryDTO> getDeliveriesByClientId(Integer clientId) {
-        List<Delivery> deliveries = deliveryRepository.findByClientId(clientId);
-        return deliveries.stream()
-                .map(deliveryMapper::toDeliveryDTO)
-                .collect(Collectors.toList());
+        return null;
     }
 
     @Override
@@ -101,6 +98,14 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
+    public List<DeliveryDTO> getDeliveryCountByClientId(Long clientId) {
+        List<Delivery> deliveries = deliveryRepository.findByClientId(Math.toIntExact(clientId));
+        return deliveries.stream()
+                .map(deliveryMapper::toDeliveryDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public int getDeliveryCountByClientId(Integer clientId) {
         return deliveryRepository.countByClientId(clientId);
     }
@@ -108,5 +113,15 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public int getDeliveryCountByStatus(String deliveryStatus) {
         return deliveryRepository.countByDeliveryStatus(deliveryStatus);
+    }
+
+    @Override
+    public DeliveryDTO getDeliveryById(Integer id) {
+        return deliveryMapper.toDeliveryDTO(deliveryRepository.findById(id).orElse(null));
+    }
+
+    @Override
+    public void deleteDelivery(Integer id) {
+        deliveryRepository.deleteById(id);
     }
 }

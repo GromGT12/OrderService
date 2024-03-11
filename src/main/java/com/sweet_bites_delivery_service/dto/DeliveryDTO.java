@@ -5,32 +5,35 @@ import java.util.Date;
 import java.util.Objects;
 
 public class DeliveryDTO {
-    private Integer id;
-    private Integer orderId;
+    private Long id;
+    private Long orderId;
     private Integer productId;
     private Integer quantity;
     private BigDecimal totalPrice;
     private Date deliveryDate;
     private String deliveryStatus;
     private String deliveryAddress;
-    private Integer clientId;
+    private Long clientId;
     private String clientName;
     private String clientAddress;
     private String deliveryMethod;
 
-    public Integer getId() {
+    public DeliveryDTO() {
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getOrderId() {
+    public Long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Integer orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
 
@@ -82,11 +85,11 @@ public class DeliveryDTO {
         this.deliveryAddress = deliveryAddress;
     }
 
-    public Integer getClientId() {
+    public Long getClientId() {
         return clientId;
     }
 
-    public void setClientId(Integer clientId) {
+    public void setClientId(Long clientId) {
         this.clientId = clientId;
     }
 

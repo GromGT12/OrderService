@@ -22,12 +22,14 @@ public interface DeliveryService {
 
     List<DeliveryDTO> getDeliveriesByProductId(Integer productId);
 
+    List<DeliveryDTO> getDeliveryCountByClientId(Long clientId);
+
     int getDeliveryCountByClientId(Integer clientId);
 
     int getDeliveryCountByStatus(String deliveryStatus);
 
-    DeliveryDTO getDeliveryById(Long id);
+    DeliveryDTO getDeliveryById(Integer id);
 
-    void deleteDelivery(Long id);
+    void deleteDelivery(Integer id);
 }
 
