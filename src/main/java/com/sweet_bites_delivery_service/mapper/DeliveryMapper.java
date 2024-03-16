@@ -14,8 +14,6 @@ public interface DeliveryMapper {
     DeliveryDTO toDeliveryDTO(Delivery delivery);
 
     Delivery toDelivery(DeliveryDTO deliveryDTO);
-    //  @Mapping(target = "id", source = "orderId")
-    //Delivery updateDeliveryFromDto(DeliveryDTO deliveryDTO, Delivery existingDelivery);
     @Mapping(target = "id", expression = "java(deliveryDTO.getOrderId())")
     Delivery updateDeliveryFromDto(DeliveryDTO deliveryDTO, @MappingTarget Delivery existingDelivery);
 }

@@ -58,7 +58,7 @@ public class DeliveryController {
 
     @GetMapping("/count/byClientId/{clientId}")
     public List<DeliveryDTO> getDeliveryCountByClientId(@PathVariable Long clientId) {
-        return deliveryService.getDeliveryCountByClientId((long) Math.toIntExact(clientId));
+         return deliveryService.getDeliveryCountByClientId((long) Math.toIntExact(clientId));
     }
 
     @GetMapping("/count/byStatus/{status}")
