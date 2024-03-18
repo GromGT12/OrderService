@@ -1,7 +1,7 @@
 package com.sweet_bites_delivery_service.mapper;
 
 import com.sweet_bites_delivery_service.dto.DeliveryDTO;
-import com.sweet_bites_delivery_service.repository.model.Delivery;
+import com.sweet_bites_delivery_service.model.Delivery;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

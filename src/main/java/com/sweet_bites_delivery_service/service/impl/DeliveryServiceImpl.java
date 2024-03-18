@@ -4,10 +4,9 @@ import com.sweet_bites_delivery_service.dto.DeliveryDTO;
 import com.sweet_bites_delivery_service.exception.DeliveryNotFoundException;
 import com.sweet_bites_delivery_service.mapper.DeliveryMapper;
 import com.sweet_bites_delivery_service.repository.DeliveryRepository;
-import com.sweet_bites_delivery_service.repository.model.Delivery;
+import com.sweet_bites_delivery_service.model.Delivery;
 import com.sweet_bites_delivery_service.service.DeliveryService;
 import com.sweet_bites_delivery_service.validator.DeliveryValidator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +22,6 @@ public class DeliveryServiceImpl implements DeliveryService {
     private final DeliveryValidator deliveryValidator;
     private final DeliveryMapper deliveryMapper;
 
-    @Autowired
     public DeliveryServiceImpl(DeliveryRepository deliveryRepository, DeliveryValidator deliveryValidator, DeliveryMapper deliveryMapper) {
         this.deliveryRepository = deliveryRepository;
         this.deliveryValidator = deliveryValidator;

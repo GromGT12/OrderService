@@ -12,8 +12,11 @@ import java.util.List;
 @RequestMapping("/deliveries")
 public class DeliveryController {
 
-    @Autowired
-    private DeliveryService deliveryService;
+    private final DeliveryService deliveryService;
+
+    public DeliveryController(DeliveryService deliveryService) {
+        this.deliveryService = deliveryService;
+    }
 
     @GetMapping("/{id}")
     public DeliveryDTO getDeliveryById(@PathVariable Integer id) {
