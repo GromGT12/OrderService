@@ -47,5 +47,4 @@
                                  referencedTableName="orders"
                                  referencedColumnNames="id"/>
     </changeSet>
-
 </databaseChangeLog>

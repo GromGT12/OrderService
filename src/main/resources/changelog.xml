@@ -7,5 +7,4 @@
     <include file="changelog/001-initial_db_setup.xml" relativeToChangelogFile="true"/>
     <include file="changelog/002-insert_orders_data.xml" relativeToChangelogFile="true"/>
     <include file="changelog/003-insert_delivery_data.xml" relativeToChangelogFile="true"/>
-
 </databaseChangeLog>

@@ -3,13 +3,12 @@ package com.sweet_bites_delivery_service.repository;
 import com.sweet_bites_delivery_service.repository.model.Delivery;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
-@EnableJpaRepositories
+
 @Repository
 public interface DeliveryRepository extends JpaRepository<Delivery, Integer> {
 
@@ -17,7 +16,7 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Integer> {
 
     List<Delivery> findByDeliveryAddress(String deliveryAddress);
 
-    Delivery findByOrderId(Integer orderId);
+    Delivery findByOrder_Id(Integer orderId);
 
     @Query(value = "SELECT * FROM delivery WHERE delivery_status = :status", nativeQuery = true)
     List<Delivery> findDeliveriesByStatus(@Param("status") String status);

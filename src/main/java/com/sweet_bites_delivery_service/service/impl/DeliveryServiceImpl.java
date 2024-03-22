@@ -2,15 +2,15 @@ package com.sweet_bites_delivery_service.service.impl;
 
 import com.sweet_bites_delivery_service.dto.DeliveryDTO;
 import com.sweet_bites_delivery_service.exception.DeliveryNotFoundException;
-import com.sweet_bites_delivery_service.mapper.DeliveryMapper;
 import com.sweet_bites_delivery_service.repository.DeliveryRepository;
+import com.sweet_bites_delivery_service.repository.mapper.DeliveryMapper;
 import com.sweet_bites_delivery_service.repository.model.Delivery;
 import com.sweet_bites_delivery_service.service.DeliveryService;
 import com.sweet_bites_delivery_service.validator.DeliveryValidator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,7 +23,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     private final DeliveryValidator deliveryValidator;
     private final DeliveryMapper deliveryMapper;
 
-    @Autowired
+
     public DeliveryServiceImpl(DeliveryRepository deliveryRepository, DeliveryValidator deliveryValidator, DeliveryMapper deliveryMapper) {
         this.deliveryRepository = deliveryRepository;
         this.deliveryValidator = deliveryValidator;
@@ -32,7 +32,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Override
     public DeliveryDTO getDeliveryByOrderId(Integer orderId) {
-        Delivery delivery = deliveryRepository.findByOrderId(orderId);
+        Delivery delivery = deliveryRepository.findByOrder_Id(orderId);
         return delivery != null ? deliveryMapper.toDeliveryDTO(delivery) : null;
     }
 
@@ -60,7 +60,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     @Transactional
     public DeliveryDTO deleteDeliveryByOrderId(Integer orderId) {
-        Delivery delivery = deliveryRepository.findByOrderId(orderId);
+        Delivery delivery = deliveryRepository.findByOrder_Id(orderId);
         if (delivery != null) {
             deliveryRepository.delete(delivery);
             return deliveryMapper.toDeliveryDTO(delivery);
@@ -70,7 +70,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Override
     public List<DeliveryDTO> getDeliveriesByClientId(Integer clientId) {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
