@@ -2,9 +2,9 @@ package com.sweet_bites_delivery_service.service.impl;
 
 import com.sweet_bites_delivery_service.dto.DeliveryDTO;
 import com.sweet_bites_delivery_service.exception.DeliveryNotFoundException;
-import com.sweet_bites_delivery_service.mapper.DeliveryMapper;
 import com.sweet_bites_delivery_service.repository.DeliveryRepository;
-import com.sweet_bites_delivery_service.model.Delivery;
+import com.sweet_bites_delivery_service.repository.mappers.DeliveryMapper;
+import com.sweet_bites_delivery_service.repository.model.Delivery;
 import com.sweet_bites_delivery_service.service.DeliveryService;
 import com.sweet_bites_delivery_service.validator.DeliveryValidator;
 import org.springframework.stereotype.Service;
@@ -68,7 +68,10 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Override
     public List<DeliveryDTO> getDeliveriesByClientId(Integer clientId) {
-        return null;
+        List<Delivery> deliveries = deliveryRepository.findByClientId(clientId);
+        return deliveries.stream()
+                .map(deliveryMapper::toDeliveryDTO)
+                .collect(Collectors.toList());
     }
 
     @Override

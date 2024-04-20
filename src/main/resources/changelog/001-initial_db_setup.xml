@@ -39,12 +39,48 @@
         </createTable>
     </changeSet>
 
+    <!-- Create ShoppingCart Table -->
+    <changeSet id="createShoppingCartTable" author="Maks">
+        <createTable tableName="shopping_cart">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="INTEGER"/>
+            <column name="total_price" type="DECIMAL(10,2)"/>
+            <!-- Другие поля корзины -->
+        </createTable>
+    </changeSet>
+
+    <!-- Create CartItem Table -->
+    <changeSet id="createCartItemTable" author="Maks">
+        <createTable tableName="cart_item">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="shopping_cart_id" type="BIGINT"/>
+            <column name="product_id" type="INTEGER"/>
+            <column name="product_name" type="VARCHAR(255)"/>
+            <column name="quantity" type="INTEGER"/>
+            <column name="price" type="DECIMAL(10,2)"/>
+            <!-- Другие поля элементов корзины -->
+        </createTable>
+    </changeSet>
+
     <!-- Add Foreign Key Constraint for Delivery Table -->
     <changeSet id="addForeignKeyConstraintDelivery" author="Maks">
         <addForeignKeyConstraint baseTableName="delivery"
                                  baseColumnNames="order_id"
                                  constraintName="fk_delivery_order_id"
                                  referencedTableName="orders"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <!-- Add Foreign Key Constraint for CartItem Table -->
+    <changeSet id="addForeignKeyConstraintCartItem" author="Maks">
+        <addForeignKeyConstraint baseTableName="cart_item"
+                                 baseColumnNames="shopping_cart_id"
+                                 constraintName="fk_cart_item_shopping_cart_id"
+                                 referencedTableName="shopping_cart"
                                  referencedColumnNames="id"/>
     </changeSet>
 

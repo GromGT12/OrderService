@@ -7,18 +7,25 @@ import java.util.Objects;
 public class DeliveryDTO {
     private Long id;
     private Long orderId;
-    private Integer productId;
     private Integer quantity;
     private BigDecimal totalPrice;
     private Date deliveryDate;
     private String deliveryStatus;
     private String deliveryAddress;
-    private Long clientId;
-    private String clientName;
-    private String clientAddress;
     private String deliveryMethod;
 
     public DeliveryDTO() {
+    }
+
+    public DeliveryDTO(Long id, Long orderId, Integer quantity, BigDecimal totalPrice, Date deliveryDate, String deliveryStatus, String deliveryAddress, String deliveryMethod) {
+        this.id = id;
+        this.orderId = orderId;
+        this.quantity = quantity;
+        this.totalPrice = totalPrice;
+        this.deliveryDate = deliveryDate;
+        this.deliveryStatus = deliveryStatus;
+        this.deliveryAddress = deliveryAddress;
+        this.deliveryMethod = deliveryMethod;
     }
 
     public Long getId() {
@@ -35,14 +42,6 @@ public class DeliveryDTO {
 
     public void setOrderId(Long orderId) {
         this.orderId = orderId;
-    }
-
-    public Integer getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Integer productId) {
-        this.productId = productId;
     }
 
     public Integer getQuantity() {
@@ -85,30 +84,6 @@ public class DeliveryDTO {
         this.deliveryAddress = deliveryAddress;
     }
 
-    public Long getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(Long clientId) {
-        this.clientId = clientId;
-    }
-
-    public String getClientName() {
-        return clientName;
-    }
-
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
-    }
-
-    public String getClientAddress() {
-        return clientAddress;
-    }
-
-    public void setClientAddress(String clientAddress) {
-        this.clientAddress = clientAddress;
-    }
-
     public String getDeliveryMethod() {
         return deliveryMethod;
     }
@@ -122,12 +97,12 @@ public class DeliveryDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DeliveryDTO that = (DeliveryDTO) o;
-        return Objects.equals(id, that.id) && Objects.equals(orderId, that.orderId) && Objects.equals(productId, that.productId) && Objects.equals(quantity, that.quantity) && Objects.equals(totalPrice, that.totalPrice) && Objects.equals(deliveryDate, that.deliveryDate) && Objects.equals(deliveryStatus, that.deliveryStatus) && Objects.equals(deliveryAddress, that.deliveryAddress) && Objects.equals(clientId, that.clientId) && Objects.equals(clientName, that.clientName) && Objects.equals(clientAddress, that.clientAddress) && Objects.equals(deliveryMethod, that.deliveryMethod);
+        return Objects.equals(id, that.id) && Objects.equals(orderId, that.orderId) && Objects.equals(quantity, that.quantity) && Objects.equals(totalPrice, that.totalPrice) && Objects.equals(deliveryDate, that.deliveryDate) && Objects.equals(deliveryStatus, that.deliveryStatus) && Objects.equals(deliveryAddress, that.deliveryAddress) && Objects.equals(deliveryMethod, that.deliveryMethod);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, orderId, productId, quantity, totalPrice, deliveryDate, deliveryStatus, deliveryAddress, clientId, clientName, clientAddress, deliveryMethod);
+        return Objects.hash(id, orderId, quantity, totalPrice, deliveryDate, deliveryStatus, deliveryAddress, deliveryMethod);
     }
 
     @Override
@@ -135,15 +110,11 @@ public class DeliveryDTO {
         return "DeliveryDTO{" +
                 "id=" + id +
                 ", orderId=" + orderId +
-                ", productId=" + productId +
                 ", quantity=" + quantity +
                 ", totalPrice=" + totalPrice +
                 ", deliveryDate=" + deliveryDate +
                 ", deliveryStatus='" + deliveryStatus + '\'' +
                 ", deliveryAddress='" + deliveryAddress + '\'' +
-                ", clientId=" + clientId +
-                ", clientName='" + clientName + '\'' +
-                ", clientAddress='" + clientAddress + '\'' +
                 ", deliveryMethod='" + deliveryMethod + '\'' +
                 '}';
     }
