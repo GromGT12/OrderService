@@ -16,7 +16,6 @@ public class ShoppingCartDTO {
     private String paymentMethod;
     private String couponCode;
 
-    // Геттеры и сеттеры
     public Long getUserId() {
         return userId;
     }

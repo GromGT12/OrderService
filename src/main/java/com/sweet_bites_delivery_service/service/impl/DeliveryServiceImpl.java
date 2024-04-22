@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 @Service
 @Transactional(readOnly = true)
 public class DeliveryServiceImpl implements DeliveryService {
-
     private final DeliveryRepository deliveryRepository;
     private final DeliveryValidator deliveryValidator;
     private final DeliveryMapper deliveryMapper;
@@ -37,7 +36,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     @Transactional
     public DeliveryDTO createDelivery(DeliveryDTO deliveryDTO) {
-        deliveryValidator.validate(deliveryDTO);
+        deliveryValidator.validatorDelivery(deliveryDTO);
         Delivery delivery = deliveryMapper.toDelivery(deliveryDTO);
         Delivery savedDelivery = deliveryRepository.save(delivery);
         return deliveryMapper.toDeliveryDTO(savedDelivery);
@@ -49,7 +48,7 @@ public class DeliveryServiceImpl implements DeliveryService {
         Delivery existingDelivery = deliveryRepository.findById(Math.toIntExact(deliveryDTO.getId()))
                 .orElseThrow(() -> new DeliveryNotFoundException("Delivery not found with id: " + deliveryDTO.getId()));
 
-        deliveryValidator.validate(deliveryDTO);
+        deliveryValidator.validatorDelivery(deliveryDTO);
         deliveryMapper.updateDeliveryFromDto(deliveryDTO, existingDelivery);
         Delivery updatedDelivery = deliveryRepository.save(existingDelivery);
         return deliveryMapper.toDeliveryDTO(updatedDelivery);

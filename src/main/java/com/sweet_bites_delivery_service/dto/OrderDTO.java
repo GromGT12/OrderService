@@ -23,7 +23,7 @@ public class OrderDTO {
         this.paymentStatus = paymentStatus;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 

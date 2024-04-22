@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "shopping_cart")
@@ -61,6 +62,19 @@ public class ShoppingCart {
 
     public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ShoppingCart that = (ShoppingCart) o;
+        return Objects.equals(id, that.id) && Objects.equals(userId, that.userId) && Objects.equals(items, that.items) && Objects.equals(totalPrice, that.totalPrice);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userId, items, totalPrice);
     }
 
     @Override

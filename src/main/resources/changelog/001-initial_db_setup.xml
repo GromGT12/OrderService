@@ -1,72 +1,61 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.15.xsd">
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.15.xsd">
 
-    <!-- Create Order Table -->
-    <changeSet id="createOrderTable" author="Maks">
-        <createTable tableName="orders">
-            <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="client_id" type="INTEGER"/>
-            <column name="order_date" type="TIMESTAMP"/>
-            <column name="total_price" type="DECIMAL(10,2)"/>
-            <column name="status" type="VARCHAR(50)"/>
-            <column name="delivery_address" type="VARCHAR(255)"/>
-            <column name="payment_status" type="VARCHAR(50)"/>
-        </createTable>
-    </changeSet>
-
-    <!-- Create Delivery Table -->
-    <changeSet id="createDeliveryTable" author="Maks">
-        <createTable tableName="delivery">
-            <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="order_id" type="INTEGER"/>
-            <column name="product_id" type="INTEGER"/>
-            <column name="quantity" type="INTEGER"/>
-            <column name="total_price" type="DECIMAL(10,2)"/>
-            <column name="delivery_date" type="TIMESTAMP"/>
-            <column name="delivery_status" type="VARCHAR(50)"/>
-            <column name="delivery_address" type="VARCHAR(255)"/>
-            <column name="client_id" type="INTEGER"/>
-            <column name="client_name" type="VARCHAR(100)"/>
-            <column name="client_address" type="VARCHAR(255)"/>
-            <column name="delivery_method" type="VARCHAR(50)"/>
-        </createTable>
-    </changeSet>
-
-    <!-- Create ShoppingCart Table -->
     <changeSet id="createShoppingCartTable" author="Maks">
         <createTable tableName="shopping_cart">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="user_id" type="INTEGER"/>
+            <column name="user_id" type="BIGINT"/>
             <column name="total_price" type="DECIMAL(10,2)"/>
-            <!-- Другие поля корзины -->
         </createTable>
     </changeSet>
 
-    <!-- Create CartItem Table -->
     <changeSet id="createCartItemTable" author="Maks">
         <createTable tableName="cart_item">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="shopping_cart_id" type="BIGINT"/>
-            <column name="product_id" type="INTEGER"/>
+            <column name="product_id" type="BIGINT"/>
             <column name="product_name" type="VARCHAR(255)"/>
             <column name="quantity" type="INTEGER"/>
             <column name="price" type="DECIMAL(10,2)"/>
-            <!-- Другие поля элементов корзины -->
         </createTable>
     </changeSet>
 
-    <!-- Add Foreign Key Constraint for Delivery Table -->
+    <changeSet id="createOrderTable" author="Maks">
+        <createTable tableName="orders">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="client_id" type="BIGINT"/>
+            <column name="order_date" type="TIMESTAMP"/>
+            <column name="status" type="VARCHAR(50)"/>
+            <column name="delivery_address" type="VARCHAR(255)"/>
+            <column name="payment_status" type="VARCHAR(50)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="createDeliveryTable" author="Maks">
+        <createTable tableName="delivery">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="order_id" type="BIGINT"/>
+            <column name="quantity" type="INTEGER"/>
+            <column name="total_price" type="DECIMAL(10,2)"/>
+            <column name="delivery_date" type="TIMESTAMP"/>
+            <column name="delivery_status" type="VARCHAR(50)"/>
+            <column name="delivery_address" type="VARCHAR(255)"/>
+            <column name="delivery_method" type="VARCHAR(50)"/>
+        </createTable>
+    </changeSet>
+
     <changeSet id="addForeignKeyConstraintDelivery" author="Maks">
         <addForeignKeyConstraint baseTableName="delivery"
                                  baseColumnNames="order_id"
@@ -75,7 +64,6 @@
                                  referencedColumnNames="id"/>
     </changeSet>
 
-    <!-- Add Foreign Key Constraint for CartItem Table -->
     <changeSet id="addForeignKeyConstraintCartItem" author="Maks">
         <addForeignKeyConstraint baseTableName="cart_item"
                                  baseColumnNames="shopping_cart_id"
@@ -83,5 +71,4 @@
                                  referencedTableName="shopping_cart"
                                  referencedColumnNames="id"/>
     </changeSet>
-
 </databaseChangeLog>

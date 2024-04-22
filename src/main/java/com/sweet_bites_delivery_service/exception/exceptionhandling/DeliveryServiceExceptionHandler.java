@@ -1,7 +1,7 @@
 package com.sweet_bites_delivery_service.exception.exceptionhandling;
 
 import com.sweet_bites_delivery_service.exception.DeliveryNotFoundException;
-import com.sweet_bites_delivery_service.exception.ValidationException;
+import com.sweet_bites_delivery_service.exception.ValidationExceptionDeliveryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -23,8 +23,8 @@ public class DeliveryServiceExceptionHandler {
         return ResponseEntity.status(BAD_REQUEST).body(e.getMessage());
     }
 
-    @ExceptionHandler(ValidationException.class)
-    public ResponseEntity<String> handleValidationException(ValidationException e) {
+    @ExceptionHandler(ValidationExceptionDeliveryService.class)
+    public ResponseEntity<String> handleValidationException(ValidationExceptionDeliveryService e) {
         return ResponseEntity.status(BAD_REQUEST).body(e.getMessage());
     }
 }
