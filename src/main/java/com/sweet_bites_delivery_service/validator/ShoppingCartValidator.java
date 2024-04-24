@@ -5,6 +5,7 @@ import com.sweet_bites_delivery_service.dto.ShoppingCartDTO;
 import com.sweet_bites_delivery_service.exception.ValidationExceptionDeliveryService;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -57,4 +58,9 @@ public class ShoppingCartValidator {
             violations.add(fieldName + " must not be empty.");
         }
     }
+
+    public void validateAddCartItem(Long userId, Long productId, int quantity, BigDecimal price) {
+    }
 }
+
+

@@ -112,4 +112,8 @@ public class CartItem {
                 ", price=" + price +
                 '}';
     }
+
+    public Long setUserId(Long userId) {
+        return userId;
+    }
 }

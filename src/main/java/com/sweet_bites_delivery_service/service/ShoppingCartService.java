@@ -1,19 +1,22 @@
 package com.sweet_bites_delivery_service.service;
 
-import com.sweet_bites_delivery_service.dto.CartItemDTO;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
-
 public interface ShoppingCartService {
-    void addCartItem(Long userId, Long productId, int quantity, double price);
+    @Transactional
+    void addCartItem(Long userId, Long productId, Integer quantity, BigDecimal price);
 
+    @Transactional
     void removeCartItem(Long userId, Long productId);
 
-    void updateCartItemQuantity(Long userId, Long productId, int quantity);
+    @Transactional
+    void updateCartItemQuantity(Long userId, Long productId, Integer quantity);
 
-    List<CartItemDTO> getCartItems(Long userId);
+    List<Object> getCartItems(Long userId);
 
+    @Transactional
     void clearCart(Long userId);
 
-    void applyCoupon(Long userId, String couponCode);
 }

@@ -13,5 +13,5 @@ public interface OrderMapper {
 
     Order toOrder(OrderDTO orderDTO);
 
-    OrderDTO toOrderDTOFromModel(Order order);
+    OrderDTO updateOrderFromDTO(Order order, OrderDTO orderDTO);
 }
