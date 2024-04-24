@@ -1,7 +1,6 @@
 package com.sweet_bites_delivery_service.repository.model;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -19,9 +18,6 @@ public class Order {
     @Column(name = "order_date")
     private Date orderDate;
 
-    @Column(name = "total_price")
-    private BigDecimal totalPrice;
-
     @Column(name = "status")
     private String status;
 
@@ -33,6 +29,19 @@ public class Order {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<Delivery> deliveries;
+
+    public Order() {
+    }
+
+    public Order(Long id, Long clientId, Date orderDate, String status, String deliveryAddress, String paymentStatus, List<Delivery> deliveries) {
+        this.id = id;
+        this.clientId = clientId;
+        this.orderDate = orderDate;
+        this.status = status;
+        this.deliveryAddress = deliveryAddress;
+        this.paymentStatus = paymentStatus;
+        this.deliveries = deliveries;
+    }
 
     public Long getId() {
         return id;
@@ -56,14 +65,6 @@ public class Order {
 
     public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
-    }
-
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
     }
 
     public String getStatus() {
@@ -103,12 +104,12 @@ public class Order {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return Objects.equals(id, order.id) && Objects.equals(clientId, order.clientId) && Objects.equals(orderDate, order.orderDate) && Objects.equals(totalPrice, order.totalPrice) && Objects.equals(status, order.status) && Objects.equals(deliveryAddress, order.deliveryAddress) && Objects.equals(paymentStatus, order.paymentStatus) && Objects.equals(deliveries, order.deliveries);
+        return Objects.equals(id, order.id) && Objects.equals(clientId, order.clientId) && Objects.equals(orderDate, order.orderDate) && Objects.equals(status, order.status) && Objects.equals(deliveryAddress, order.deliveryAddress) && Objects.equals(paymentStatus, order.paymentStatus) && Objects.equals(deliveries, order.deliveries);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, clientId, orderDate, totalPrice, status, deliveryAddress, paymentStatus, deliveries);
+        return Objects.hash(id, clientId, orderDate, status, deliveryAddress, paymentStatus, deliveries);
     }
 
     @Override
@@ -117,7 +118,6 @@ public class Order {
                 "id=" + id +
                 ", clientId=" + clientId +
                 ", orderDate=" + orderDate +
-                ", totalPrice=" + totalPrice +
                 ", status='" + status + '\'' +
                 ", deliveryAddress='" + deliveryAddress + '\'' +
                 ", paymentStatus='" + paymentStatus + '\'' +

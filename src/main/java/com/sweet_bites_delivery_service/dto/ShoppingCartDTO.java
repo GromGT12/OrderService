@@ -1,5 +1,6 @@
 package com.sweet_bites_delivery_service.dto;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -7,7 +8,7 @@ import java.util.Objects;
 public class ShoppingCartDTO {
     private Long userId;
     private List<CartItemDTO> items;
-    private double totalPrice;
+    private BigDecimal totalPrice;
     private Date createdAt;
     private Date updatedAt;
     private String status;
@@ -16,7 +17,22 @@ public class ShoppingCartDTO {
     private String paymentMethod;
     private String couponCode;
 
-    // Геттеры и сеттеры
+    public ShoppingCartDTO() {
+    }
+
+    public ShoppingCartDTO(Long userId, List<CartItemDTO> items, BigDecimal totalPrice, Date createdAt, Date updatedAt, String status, String shippingAddress, String shippingMethod, String paymentMethod, String couponCode) {
+        this.userId = userId;
+        this.items = items;
+        this.totalPrice = totalPrice;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.status = status;
+        this.shippingAddress = shippingAddress;
+        this.shippingMethod = shippingMethod;
+        this.paymentMethod = paymentMethod;
+        this.couponCode = couponCode;
+    }
+
     public Long getUserId() {
         return userId;
     }
@@ -33,11 +49,11 @@ public class ShoppingCartDTO {
         this.items = items;
     }
 
-    public double getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
 
@@ -102,7 +118,7 @@ public class ShoppingCartDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ShoppingCartDTO that = (ShoppingCartDTO) o;
-        return Double.compare(that.totalPrice, totalPrice) == 0 && Objects.equals(userId, that.userId) && Objects.equals(items, that.items) && Objects.equals(createdAt, that.createdAt) && Objects.equals(updatedAt, that.updatedAt) && Objects.equals(status, that.status) && Objects.equals(shippingAddress, that.shippingAddress) && Objects.equals(shippingMethod, that.shippingMethod) && Objects.equals(paymentMethod, that.paymentMethod) && Objects.equals(couponCode, that.couponCode);
+        return Objects.equals(userId, that.userId) && Objects.equals(items, that.items) && Objects.equals(totalPrice, that.totalPrice) && Objects.equals(createdAt, that.createdAt) && Objects.equals(updatedAt, that.updatedAt) && Objects.equals(status, that.status) && Objects.equals(shippingAddress, that.shippingAddress) && Objects.equals(shippingMethod, that.shippingMethod) && Objects.equals(paymentMethod, that.paymentMethod) && Objects.equals(couponCode, that.couponCode);
     }
 
     @Override

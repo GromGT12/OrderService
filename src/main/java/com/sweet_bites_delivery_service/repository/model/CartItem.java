@@ -3,6 +3,7 @@ package com.sweet_bites_delivery_service.repository.model;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Entity
 @Table(name = "cart_item")
@@ -88,6 +89,19 @@ public class CartItem {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CartItem cartItem = (CartItem) o;
+        return Objects.equals(id, cartItem.id) && Objects.equals(shoppingCart, cartItem.shoppingCart) && Objects.equals(productId, cartItem.productId) && Objects.equals(productName, cartItem.productName) && Objects.equals(quantity, cartItem.quantity) && Objects.equals(price, cartItem.price);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, shoppingCart, productId, productName, quantity, price);
+    }
+
+    @Override
     public String toString() {
         return "CartItem{" +
                 "id=" + id +
@@ -97,5 +111,9 @@ public class CartItem {
                 ", quantity=" + quantity +
                 ", price=" + price +
                 '}';
+    }
+
+    public Long setUserId(Long userId) {
+        return userId;
     }
 }
