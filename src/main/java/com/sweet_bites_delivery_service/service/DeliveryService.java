@@ -1,10 +1,12 @@
 package com.sweet_bites_delivery_service.service;
 
 import com.sweet_bites_delivery_service.dto.DeliveryDTO;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 
+@Service
 public interface DeliveryService {
     DeliveryDTO getDeliveryByOrderId(Integer orderId);
 

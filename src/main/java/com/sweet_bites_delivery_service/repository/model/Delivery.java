@@ -36,18 +36,6 @@ public class Delivery {
 
     public Delivery() {
     }
-
-    public Delivery(Long id, Order order, Integer quantity, BigDecimal totalPrice, Date deliveryDate, String deliveryStatus, String deliveryAddress, String deliveryMethod) {
-        this.id = id;
-        this.order = order;
-        this.quantity = quantity;
-        this.totalPrice = totalPrice;
-        this.deliveryDate = deliveryDate;
-        this.deliveryStatus = deliveryStatus;
-        this.deliveryAddress = deliveryAddress;
-        this.deliveryMethod = deliveryMethod;
-    }
-
     public Long getId() {
         return id;
     }

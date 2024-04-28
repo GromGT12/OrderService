@@ -5,7 +5,6 @@ import com.sweet_bites_delivery_service.dto.ShoppingCartDTO;
 import com.sweet_bites_delivery_service.exception.ValidationExceptionDeliveryService;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,15 +16,14 @@ public class ShoppingCartValidator {
         List<String> violations = new ArrayList<>();
         validateUserId(cartDTO.getUserId(), violations);
         validateItems(cartDTO.getItems(), violations);
-        validatePositive(cartDTO.getTotalPrice(), "Total Price", violations);
+        validatePositive(cartDTO.getTotalPrice(), violations);
         validateDate(cartDTO.getCreatedAt(), "Created At", violations);
         validateDate(cartDTO.getUpdatedAt(), "Updated At", violations);
-        validateString(cartDTO.getShippingAddress(), "Shipping Address", violations);
-        validateString(cartDTO.getShippingMethod(), "Shipping Method", violations);
+        validateString(cartDTO.getShoppingMethod(), "Shipping Method", violations);
         validateString(cartDTO.getPaymentMethod(), "Payment Method", violations);
 
         if (!violations.isEmpty()) {
-            throw new ValidationExceptionDeliveryService("Invalid shopping cart!", violations);
+            throw new ValidationExceptionDeliveryService("Invalid shopping cart!");
         }
     }
 
@@ -41,9 +39,9 @@ public class ShoppingCartValidator {
         }
     }
 
-    private void validatePositive(Number value, String fieldName, List<String> violations) {
+    private void validatePositive(Number value, List<String> violations) {
         if (value == null || value.doubleValue() < 0) {
-            violations.add(fieldName + " must be positive.");
+            violations.add("Total Price" + " must be positive.");
         }
     }
 
@@ -57,9 +55,6 @@ public class ShoppingCartValidator {
         if (value == null || value.trim().isEmpty()) {
             violations.add(fieldName + " must not be empty.");
         }
-    }
-
-    public void validateAddCartItem(Long userId, Long productId, int quantity, BigDecimal price) {
     }
 }
 
