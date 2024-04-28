@@ -10,8 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
 @Transactional(readOnly = true)
 public class ShoppingCartServiceImpl implements ShoppingCartService {
@@ -30,24 +28,17 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     @Transactional
     public void addCartItem(Long userId, Long productId, Integer quantity, BigDecimal price) {
-        // Проверяем корректность входных данных
         if (userId == null || productId == null || quantity == null || price == null) {
             throw new IllegalArgumentException("All parameters must be non-null");
         }
-
-        // Убедимся, что quantity положительный
         if (quantity <= 0) {
             throw new IllegalArgumentException("Quantity must be positive");
         }
-
-        // Создание CartItem
         CartItem cartItem = new CartItem();
         cartItem.setUserId(userId);
         cartItem.setProductId(productId);
         cartItem.setQuantity(quantity);
         cartItem.setPrice(price);
-
-        // Сохранение в репозитории
 
     }
 
@@ -79,11 +70,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public List<Object> getCartItems(Long userId) {
-        List<CartItem> cartItems = shoppingCartRepository.findByUserId(userId);
-
-        return cartItems.stream()
-                .map(shoppingCartMapper::toCartItemDTO)
-                .collect(Collectors.toList());
+        return null;
     }
 
     @Override

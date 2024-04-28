@@ -1,10 +1,8 @@
 package com.sweet_bites_delivery_service.exception;
 
-import java.util.List;
-
 public class ValidationExceptionDeliveryService extends RuntimeException {
 
-    public ValidationExceptionDeliveryService(String message, List<String> violations) {
+    public ValidationExceptionDeliveryService(String message) {
         super(message);
     }
 

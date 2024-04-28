@@ -1,9 +1,12 @@
 package com.sweet_bites_delivery_service.service;
 
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+
+@Service
 public interface ShoppingCartService {
     @Transactional
     void addCartItem(Long userId, Long productId, Integer quantity, BigDecimal price);

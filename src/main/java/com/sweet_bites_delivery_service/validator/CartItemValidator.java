@@ -1,11 +1,11 @@
 package com.sweet_bites_delivery_service.validator;
-
 import com.sweet_bites_delivery_service.dto.CartItemDTO;
 import com.sweet_bites_delivery_service.exception.ValidationExceptionDeliveryService;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -21,6 +21,7 @@ public class CartItemValidator {
 
     public void validateCartItem(CartItemDTO cartItemDTO) {
         List<String> violations = new ArrayList<>();
+
         boolean productExists = validateProductExists(cartItemDTO.getProductId());
         if (!productExists) {
             violations.add("Product with this ID does not exist.");
@@ -28,10 +29,12 @@ public class CartItemValidator {
 
         validateProductName(cartItemDTO.getProductName(), violations);
         validateQuantity(cartItemDTO.getQuantity(), violations);
+
+        // Используем BigDecimal для валидации цены
         validatePrice(cartItemDTO.getPrice(), violations);
 
         if (!violations.isEmpty()) {
-            throw new ValidationExceptionDeliveryService("CartItem validation failed", violations);
+            throw new ValidationExceptionDeliveryService("CartItem validation failed.");
         }
     }
 
@@ -70,8 +73,9 @@ public class CartItemValidator {
         }
     }
 
-    private void validatePrice(double price, List<String> violations) {
-        if (price <= 0) {
+    // Исправленный метод validatePrice, принимающий BigDecimal
+    private void validatePrice(BigDecimal price, List<String> violations) {
+        if (price == null || price.compareTo(BigDecimal.ZERO) <= 0) {
             violations.add("Price must be greater than zero.");
         }
     }

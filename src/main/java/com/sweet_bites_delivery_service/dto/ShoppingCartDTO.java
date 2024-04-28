@@ -12,25 +12,10 @@ public class ShoppingCartDTO {
     private Date createdAt;
     private Date updatedAt;
     private String status;
-    private String shippingAddress;
-    private String shippingMethod;
+    private String shoppingMethod;
     private String paymentMethod;
-    private String couponCode;
 
     public ShoppingCartDTO() {
-    }
-
-    public ShoppingCartDTO(Long userId, List<CartItemDTO> items, BigDecimal totalPrice, Date createdAt, Date updatedAt, String status, String shippingAddress, String shippingMethod, String paymentMethod, String couponCode) {
-        this.userId = userId;
-        this.items = items;
-        this.totalPrice = totalPrice;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.status = status;
-        this.shippingAddress = shippingAddress;
-        this.shippingMethod = shippingMethod;
-        this.paymentMethod = paymentMethod;
-        this.couponCode = couponCode;
     }
 
     public Long getUserId() {
@@ -81,20 +66,12 @@ public class ShoppingCartDTO {
         this.status = status;
     }
 
-    public String getShippingAddress() {
-        return shippingAddress;
+    public String getShoppingMethod() {
+        return shoppingMethod;
     }
 
-    public void setShippingAddress(String shippingAddress) {
-        this.shippingAddress = shippingAddress;
-    }
-
-    public String getShippingMethod() {
-        return shippingMethod;
-    }
-
-    public void setShippingMethod(String shippingMethod) {
-        this.shippingMethod = shippingMethod;
+    public void setShoppingMethod(String shoppingMethod) {
+        this.shoppingMethod = shoppingMethod;
     }
 
     public String getPaymentMethod() {
@@ -105,25 +82,17 @@ public class ShoppingCartDTO {
         this.paymentMethod = paymentMethod;
     }
 
-    public String getCouponCode() {
-        return couponCode;
-    }
-
-    public void setCouponCode(String couponCode) {
-        this.couponCode = couponCode;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ShoppingCartDTO that = (ShoppingCartDTO) o;
-        return Objects.equals(userId, that.userId) && Objects.equals(items, that.items) && Objects.equals(totalPrice, that.totalPrice) && Objects.equals(createdAt, that.createdAt) && Objects.equals(updatedAt, that.updatedAt) && Objects.equals(status, that.status) && Objects.equals(shippingAddress, that.shippingAddress) && Objects.equals(shippingMethod, that.shippingMethod) && Objects.equals(paymentMethod, that.paymentMethod) && Objects.equals(couponCode, that.couponCode);
+        return Objects.equals(userId, that.userId) && Objects.equals(items, that.items) && Objects.equals(totalPrice, that.totalPrice) && Objects.equals(createdAt, that.createdAt) && Objects.equals(updatedAt, that.updatedAt) && Objects.equals(status, that.status) && Objects.equals(shoppingMethod, that.shoppingMethod) && Objects.equals(paymentMethod, that.paymentMethod);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, items, totalPrice, createdAt, updatedAt, status, shippingAddress, shippingMethod, paymentMethod, couponCode);
+        return Objects.hash(userId, items, totalPrice, createdAt, updatedAt, status, shoppingMethod, paymentMethod);
     }
 
     @Override
@@ -135,10 +104,9 @@ public class ShoppingCartDTO {
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", status='" + status + '\'' +
-                ", shippingAddress='" + shippingAddress + '\'' +
-                ", shippingMethod='" + shippingMethod + '\'' +
+                ", shoppingMethod='" + shoppingMethod + '\'' +
                 ", paymentMethod='" + paymentMethod + '\'' +
-                ", couponCode='" + couponCode + '\'' +
                 '}';
     }
 }
+

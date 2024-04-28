@@ -37,15 +37,15 @@ public class CartItemDTO {
         this.productName = productName;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
@@ -66,7 +66,7 @@ public class CartItemDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CartItemDTO that = (CartItemDTO) o;
-        return quantity == that.quantity && Objects.equals(productId, that.productId) && Objects.equals(productName, that.productName) && Objects.equals(price, that.price) && Objects.equals(userId, that.userId);
+        return Objects.equals(productId, that.productId) && Objects.equals(productName, that.productName) && Objects.equals(quantity, that.quantity) && Objects.equals(price, that.price) && Objects.equals(userId, that.userId);
     }
 
     @Override

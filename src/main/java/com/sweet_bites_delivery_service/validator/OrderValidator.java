@@ -35,7 +35,7 @@ public class OrderValidator {
         validateStringOnlyLetters(orderDTO.getPaymentStatus(), "Payment Status", violations);
 
         if (!violations.isEmpty()) {
-            throw new ValidationExceptionDeliveryService("Provided order is invalid!", violations);
+            throw new ValidationExceptionDeliveryService("Provided order is invalid!");
         }
     }
 
@@ -84,6 +84,7 @@ public class OrderValidator {
         if (value == null || value.trim().isEmpty()) {
             violations.add(fieldName + " must not be empty.");
         }
+        assert value != null;
         if (!ONLY_LETTERS_PATTERN.matcher(value).matches()) {
             violations.add(fieldName + " must contain only letters.");
         }
