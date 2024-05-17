@@ -1,7 +1,7 @@
 package com.sweet_bites_delivery_service.repository.mappers;
 
 import com.sweet_bites_delivery_service.dto.OrderDTO;
-import com.sweet_bites_delivery_service.repository.model.Order;
+import com.sweet_bites_delivery_service.model.Order;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -37,7 +37,7 @@ public interface OrderMapper {
 
 /*
 import com.sweet_bites_delivery_service.dto.OrderDTO;
-import com.sweet_bites_delivery_service.repository.model.Order;
+import com.sweet_bites_delivery_service.model.Order;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

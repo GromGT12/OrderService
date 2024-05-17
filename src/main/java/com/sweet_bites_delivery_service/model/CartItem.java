@@ -1,4 +1,4 @@
-package com.sweet_bites_delivery_service.repository.model;
+package com.sweet_bites_delivery_service.model;
 
 import jakarta.persistence.*;
 
