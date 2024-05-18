@@ -1,16 +1,16 @@
 package com.sweet_bites_delivery_service.repository.mappers;
 
 import com.sweet_bites_delivery_service.dto.DeliveryDTO;
-import com.sweet_bites_delivery_service.repository.model.Delivery;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import com.sweet_bites_delivery_service.model.Delivery;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
-
-@Mapper
+@Mapper(componentModel = "spring")
 public interface DeliveryMapper {
     DeliveryMapper INSTANCE = Mappers.getMapper(DeliveryMapper.class);
 
+    @Mappings({
+            @Mapping(source = "order.id", target = "orderId"), // Здесь изменено на orderId
+    })
     DeliveryDTO toDeliveryDTO(Delivery delivery);
 
     Delivery toDelivery(DeliveryDTO deliveryDTO);

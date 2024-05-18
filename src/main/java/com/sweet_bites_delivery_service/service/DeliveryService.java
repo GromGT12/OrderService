@@ -8,7 +8,7 @@ import java.util.List;
 
 @Service
 public interface DeliveryService {
-    DeliveryDTO getDeliveryByOrderId(Integer orderId);
+    DeliveryDTO getDeliveryByOrderId(Long orderId);
 
     DeliveryDTO createDelivery(DeliveryDTO deliveryDTO);
 
@@ -23,10 +23,6 @@ public interface DeliveryService {
     List<DeliveryDTO> getDeliveriesByDateRange(Date startDate, Date endDate);
 
     List<DeliveryDTO> getDeliveriesByProductId(Integer productId);
-
-    List<DeliveryDTO> getDeliveryCountByClientId(Long clientId);
-
-    int getDeliveryCountByClientId(Integer clientId);
 
     int getDeliveryCountByStatus(String deliveryStatus);
 

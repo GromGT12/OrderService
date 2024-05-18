@@ -3,7 +3,7 @@ package com.sweet_bites_delivery_service.service.impl;
 import com.sweet_bites_delivery_service.dto.OrderDTO;
 import com.sweet_bites_delivery_service.repository.OrderRepository;
 import com.sweet_bites_delivery_service.repository.mappers.OrderMapper;
-import com.sweet_bites_delivery_service.repository.model.Order;
+import com.sweet_bites_delivery_service.model.Order;
 import com.sweet_bites_delivery_service.service.OrderService;
 import com.sweet_bites_delivery_service.validator.OrderValidator;
 import org.springframework.beans.factory.annotation.Autowired;
