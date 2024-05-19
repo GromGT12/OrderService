@@ -2,9 +2,9 @@ package com.sweet_bites_delivery_service.service.impl;
 
 import com.sweet_bites_delivery_service.dto.DeliveryDTO;
 import com.sweet_bites_delivery_service.exception.DeliveryNotFoundException;
-import com.sweet_bites_delivery_service.repository.DeliveryRepository;
-import com.sweet_bites_delivery_service.repository.mappers.DeliveryMapper;
+import com.sweet_bites_delivery_service.mappers.DeliveryMapper;
 import com.sweet_bites_delivery_service.model.Delivery;
+import com.sweet_bites_delivery_service.repository.DeliveryRepository;
 import com.sweet_bites_delivery_service.service.DeliveryService;
 import com.sweet_bites_delivery_service.validator.DeliveryValidator;
 import org.springframework.stereotype.Service;
@@ -56,21 +56,13 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Override
     @Transactional
-    public DeliveryDTO deleteDeliveryByOrderId(Integer orderId) {
-        Delivery delivery = deliveryRepository.findByOrderId(Long.valueOf(orderId));
+    public DeliveryDTO deleteDeliveryByOrderId(Long orderId) {
+        Delivery delivery = deliveryRepository.findByOrderId(orderId);
         if (delivery != null) {
             deliveryRepository.delete(delivery);
             return deliveryMapper.toDeliveryDTO(delivery);
         }
         return null;
-    }
-
-    @Override
-    public List<DeliveryDTO> getDeliveriesByClientId(Integer clientId) {
-        List<Delivery> deliveries = deliveryRepository.findByClientId(clientId);
-        return deliveries.stream()
-                .map(deliveryMapper::toDeliveryDTO)
-                .collect(Collectors.toList());
     }
 
     @Override
@@ -90,27 +82,19 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
-    public List<DeliveryDTO> getDeliveriesByProductId(Integer productId) {
-        List<Delivery> deliveries = deliveryRepository.findByProductId(productId);
-        return deliveries.stream()
-                .map(deliveryMapper::toDeliveryDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public int getDeliveryCountByStatus(String deliveryStatus) {
         return deliveryRepository.countByDeliveryStatus(deliveryStatus);
     }
 
     @Override
-    public DeliveryDTO getDeliveryById(Integer id) {
-        return deliveryMapper.toDeliveryDTO(deliveryRepository.findById(Long.valueOf(id))
+    public DeliveryDTO getDeliveryById(Long id) {
+        return deliveryMapper.toDeliveryDTO(deliveryRepository.findById(id)
                 .orElseThrow(() -> new DeliveryNotFoundException("Delivery not found with id: " + id)));
     }
 
     @Override
     @Transactional
-    public void deleteDelivery(Integer id) {
-        deliveryRepository.deleteById(Long.valueOf(id));
+    public void deleteDelivery(Long id) {
+        deliveryRepository.deleteById(id);
     }
 }

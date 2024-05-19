@@ -1,7 +1,7 @@
 package com.sweet_bites_delivery_service.service.impl;
 
 import com.sweet_bites_delivery_service.repository.ShoppingCartRepository;
-import com.sweet_bites_delivery_service.repository.mappers.ShoppingCartMapper;
+import com.sweet_bites_delivery_service.mappers.ShoppingCartMapper;
 import com.sweet_bites_delivery_service.model.CartItem;
 import com.sweet_bites_delivery_service.service.ShoppingCartService;
 import com.sweet_bites_delivery_service.validator.ShoppingCartValidator;

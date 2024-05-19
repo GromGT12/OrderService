@@ -1,8 +1,7 @@
 package com.sweet_bites_delivery_service.model;
 
-import com.rabbitmq.client.Delivery;
+import jakarta.persistence.*;
 
-import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -29,7 +28,6 @@ public class Order {
     @Column(name = "payment_status")
     private String paymentStatus;
 
-    //@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<Delivery> deliveries;
 
     public Order() {
