@@ -1,6 +1,6 @@
 package com.sweet_bites_delivery_service.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;

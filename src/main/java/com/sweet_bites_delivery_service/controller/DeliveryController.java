@@ -18,7 +18,7 @@ public class DeliveryController {
     }
 
     @GetMapping("/{id}")
-    public DeliveryDTO getDeliveryById(@PathVariable Integer id) {
+    public DeliveryDTO getDeliveryById(@PathVariable Long id) {
         return deliveryService.getDeliveryById(id);
     }
 
@@ -34,13 +34,8 @@ public class DeliveryController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteDelivery(@PathVariable Integer id) {
+    public void deleteDelivery(@PathVariable Long id) {
         deliveryService.deleteDelivery(id);
-    }
-
-    @GetMapping("/byClientId/{clientId}")
-    public List<DeliveryDTO> getDeliveriesByClientId(@PathVariable Integer clientId) {
-        return deliveryService.getDeliveriesByClientId(clientId);
     }
 
     @GetMapping("/byStatus/{status}")
@@ -51,11 +46,6 @@ public class DeliveryController {
     @GetMapping("/byDateRange")
     public List<DeliveryDTO> getDeliveriesByDateRange(@RequestParam Date startDate, @RequestParam Date endDate) {
         return deliveryService.getDeliveriesByDateRange(startDate, endDate);
-    }
-
-    @GetMapping("/byProductId/{productId}")
-    public List<DeliveryDTO> getDeliveriesByProductId(@PathVariable Integer productId) {
-        return deliveryService.getDeliveriesByProductId(productId);
     }
 
     @GetMapping("/count/byStatus/{status}")

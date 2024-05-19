@@ -2,7 +2,7 @@ package com.sweet_bites_delivery_service.service.impl;
 
 import com.sweet_bites_delivery_service.dto.CartItemDTO;
 import com.sweet_bites_delivery_service.repository.CartItemRepository;
-import com.sweet_bites_delivery_service.repository.mappers.CartItemMapper;
+import com.sweet_bites_delivery_service.mappers.CartItemMapper;
 import com.sweet_bites_delivery_service.model.CartItem;
 import com.sweet_bites_delivery_service.service.CartItemService;
 import com.sweet_bites_delivery_service.validator.CartItemValidator;

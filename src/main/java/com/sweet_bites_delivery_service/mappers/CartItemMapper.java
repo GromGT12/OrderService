@@ -1,4 +1,4 @@
-package com.sweet_bites_delivery_service.repository.mappers;
+package com.sweet_bites_delivery_service.mappers;
 
 import com.sweet_bites_delivery_service.dto.CartItemDTO;
 import com.sweet_bites_delivery_service.model.CartItem;
