@@ -1,19 +1,30 @@
 version: '3.1.5'
 
 services:
-  postgres:
-    container_name: my_container
+  postgres-delivery:
+    container_name: my_delivery_postgres_container
     image: postgres:14.8
     environment:
+      POSTGRES_DB: sweet_bites_delivery_service
       POSTGRES_USER: pingwit
       POSTGRES_PASSWORD: pingwit_password
       PGDATA: /data/postgres
     volumes:
-      - postgres-db:/data/postgres
+      - postgres-delivery-db:/data/postgres
     ports:
-      - "5432:5432"
+      - "5433:5432"
 
+  delivery_service:
+    build: .
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-delivery:5432/sweet_bites_delivery_service
+      SPRING_DATASOURCE_USERNAME: pingwit
+      SPRING_DATASOURCE_PASSWORD: pingwit_password
+    ports:
+      - "8081:8080"
+    depends_on:
+      - postgres-delivery
 
 volumes:
-  postgres-db:
+  postgres-delivery-db:
     driver: local
