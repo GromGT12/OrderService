@@ -13,7 +13,7 @@ public class Delivery {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    @JoinColumn(name = "order_id")
     private Order order;
 
     @Column(name = "quantity")
@@ -22,6 +22,7 @@ public class Delivery {
     @Column(name = "total_price")
     private BigDecimal totalPrice;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "delivery_date")
     private Date deliveryDate;
 
@@ -36,6 +37,18 @@ public class Delivery {
 
     public Delivery() {
     }
+
+    public Delivery(Long id, Order order, Integer quantity, BigDecimal totalPrice, Date deliveryDate, String deliveryStatus, String deliveryAddress, String deliveryMethod) {
+        this.id = id;
+        this.order = order;
+        this.quantity = quantity;
+        this.totalPrice = totalPrice;
+        this.deliveryDate = deliveryDate;
+        this.deliveryStatus = deliveryStatus;
+        this.deliveryAddress = deliveryAddress;
+        this.deliveryMethod = deliveryMethod;
+    }
+
     public Long getId() {
         return id;
     }

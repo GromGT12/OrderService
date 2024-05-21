@@ -36,7 +36,7 @@ public class CartItemServiceImpl implements CartItemService {
 
     @Override
     public void removeCartItem(Long userId, Long productId) {
-        CartItem cartItem = cartItemRepository.findByUserIdOrProductID(userId, productId);
+        CartItem cartItem = cartItemRepository.findByUserIdOrProductId(userId, productId);
         if (cartItem != null) {
             cartItemRepository.delete(cartItem);
         }
@@ -44,7 +44,7 @@ public class CartItemServiceImpl implements CartItemService {
 
     @Override
     public void updateCartItemQuantity(Long userId, Long productId, int quantity) {
-        CartItem cartItem = cartItemRepository.findByUserIdOrProductID(userId, productId);
+        CartItem cartItem = cartItemRepository.findByUserIdOrProductId(userId, productId);
         if (cartItem != null) {
             cartItem.setQuantity(quantity);
             cartItemRepository.save(cartItem);

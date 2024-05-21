@@ -21,9 +21,6 @@ public class ShoppingCart {
     @Column(name = "total_price")
     private BigDecimal totalPrice;
 
-    public ShoppingCart() {
-    }
-
     public ShoppingCart(Long id, Long userId, List<CartItem> items, BigDecimal totalPrice) {
         this.id = id;
         this.userId = userId;

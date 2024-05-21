@@ -1,11 +1,9 @@
-# Use a base image with JDK
-FROM openjdk:17-jdk-slim
+FROM openjdk:17
 
-# Set the working directory inside the container
+EXPOSE 8081
+
 WORKDIR /app
 
-# Copy the JAR file into the container
-COPY target/Delivery_service.jar /app/app.jar
+COPY target/Delivery_service-0.0.1-SNAPSHOT.jar /app/your-app.jar
 
-# Set the command to run the JAR file
-CMD ["java", "-jar", "app.jar"]
+CMD ["java", "-jar", "your-app.jar"]
