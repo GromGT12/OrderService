@@ -2,12 +2,14 @@ package com.sweet_bites_delivery_service.validator;
 
 import com.sweet_bites_delivery_service.dto.DeliveryDTO;
 import com.sweet_bites_delivery_service.exception.ValidationExceptionDeliveryService;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Component
 public class DeliveryValidator {
     public void validatorDelivery(DeliveryDTO deliveryDTO) {
         List<String> violations = new ArrayList<>();

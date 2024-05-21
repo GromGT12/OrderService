@@ -22,11 +22,7 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
 
     List<Delivery> findByDeliveryDateBetween(Date startDate, Date endDate);
 
-    List<Delivery> findByProductId(Integer productId);
-
-    int countByClientId(Integer clientId);
-
     int countByDeliveryStatus(String deliveryStatus);
 
-    List<Delivery> findByClientId(Integer clientId);
+
 }

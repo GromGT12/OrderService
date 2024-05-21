@@ -55,7 +55,7 @@ public class OrderServiceImpl implements OrderService {
         Optional<Order> existingOrder = orderRepository.findById(orderId);
         if (existingOrder.isPresent()) {
             Order order = existingOrder.get();
-            orderMapper.updateOrderFromDTO(order, orderDTO);
+            orderMapper.updateOrderFromDTO(orderDTO, order);
             orderRepository.save(order);
         }
         return null;

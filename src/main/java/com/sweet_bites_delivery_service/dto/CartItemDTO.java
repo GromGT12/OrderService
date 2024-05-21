@@ -8,17 +8,15 @@ public class CartItemDTO {
     private String productName;
     private Integer quantity;
     private BigDecimal price;
-    private Long userId;
 
     public CartItemDTO() {
     }
 
-    public CartItemDTO(Long productId, String productName, int quantity, BigDecimal price, Long userId) {
+    public CartItemDTO(Long productId, String productName, Integer quantity, BigDecimal price) {
         this.productId = productId;
         this.productName = productName;
         this.quantity = quantity;
         this.price = price;
-        this.userId = userId;
     }
 
     public Long getProductId() {
@@ -53,25 +51,17 @@ public class CartItemDTO {
         this.price = price;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CartItemDTO that = (CartItemDTO) o;
-        return Objects.equals(productId, that.productId) && Objects.equals(productName, that.productName) && Objects.equals(quantity, that.quantity) && Objects.equals(price, that.price) && Objects.equals(userId, that.userId);
+        return Objects.equals(productId, that.productId) && Objects.equals(productName, that.productName) && Objects.equals(quantity, that.quantity) && Objects.equals(price, that.price);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productId, productName, quantity, price, userId);
+        return Objects.hash(productId, productName, quantity, price);
     }
 
     @Override
@@ -81,7 +71,6 @@ public class CartItemDTO {
                 ", productName='" + productName + '\'' +
                 ", quantity=" + quantity +
                 ", price=" + price +
-                ", userId=" + userId +
                 '}';
     }
 }
