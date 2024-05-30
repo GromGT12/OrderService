@@ -70,5 +70,4 @@
                                  referencedTableName="shopping_cart"
                                  referencedColumnNames="id"/>
     </changeSet>
-
 </databaseChangeLog>

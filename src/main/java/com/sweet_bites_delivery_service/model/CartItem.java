@@ -27,18 +27,6 @@ public class CartItem {
     @Column(name = "price")
     private BigDecimal price;
 
-    public CartItem() {
-    }
-
-    public CartItem(Long id, ShoppingCart shoppingCart, Long productId, String productName, Integer quantity, BigDecimal price) {
-        this.id = id;
-        this.shoppingCart = shoppingCart;
-        this.productId = productId;
-        this.productName = productName;
-        this.quantity = quantity;
-        this.price = price;
-    }
-
     public Long getId() {
         return id;
     }
@@ -111,8 +99,8 @@ public class CartItem {
                 ", price=" + price +
                 '}';
     }
-
-    public Long setUserId(Long userId) {
-        return userId;
-    }
 }
+
+
+
+

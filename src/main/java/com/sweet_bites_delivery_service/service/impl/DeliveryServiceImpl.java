@@ -7,6 +7,7 @@ import com.sweet_bites_delivery_service.model.Delivery;
 import com.sweet_bites_delivery_service.repository.DeliveryRepository;
 import com.sweet_bites_delivery_service.service.DeliveryService;
 import com.sweet_bites_delivery_service.validator.DeliveryValidator;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,7 +45,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Override
     @Transactional
-    public DeliveryDTO updateDelivery(DeliveryDTO deliveryDTO) {
+    public DeliveryDTO updateDelivery(@NotNull DeliveryDTO deliveryDTO) {
         Delivery existingDelivery = deliveryRepository.findById(deliveryDTO.getId())
                 .orElseThrow(() -> new DeliveryNotFoundException("Delivery not found with id: " + deliveryDTO.getId()));
 

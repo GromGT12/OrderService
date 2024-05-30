@@ -1,11 +1,13 @@
 package com.sweet_bites_delivery_service.service.impl;
 
 import com.sweet_bites_delivery_service.dto.CartItemDTO;
-import com.sweet_bites_delivery_service.repository.CartItemRepository;
 import com.sweet_bites_delivery_service.mappers.CartItemMapper;
 import com.sweet_bites_delivery_service.model.CartItem;
+import com.sweet_bites_delivery_service.repository.CartItemRepository;
 import com.sweet_bites_delivery_service.service.CartItemService;
 import com.sweet_bites_delivery_service.validator.CartItemValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,33 +20,36 @@ public class CartItemServiceImpl implements CartItemService {
     private final CartItemRepository cartItemRepository;
     private final CartItemValidator cartItemValidator;
     private final CartItemMapper cartItemMapper;
+    private final KafkaTemplate<String, CartItemDTO> kafkaTemplate;
 
-    public CartItemServiceImpl(CartItemRepository cartItemRepository, CartItemValidator cartItemValidator, CartItemMapper cartItemMapper) {
+    @Autowired
+    public CartItemServiceImpl(CartItemRepository cartItemRepository, CartItemValidator cartItemValidator, CartItemMapper cartItemMapper, KafkaTemplate<String, CartItemDTO> kafkaTemplate) {
         this.cartItemRepository = cartItemRepository;
         this.cartItemValidator = cartItemValidator;
         this.cartItemMapper = cartItemMapper;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
-
     @Override
-    public void addCartItem(Long userId, CartItemDTO cartItemDTO) {
+    public void addCartItem(CartItemDTO cartItemDTO) {
         cartItemValidator.validateCartItem(cartItemDTO);
         CartItem cartItem = cartItemMapper.toCartItem(cartItemDTO);
-        cartItem.setUserId(userId);
         cartItemRepository.save(cartItem);
+
+        kafkaTemplate.send("cart-item-topic", cartItemDTO);
     }
 
     @Override
-    public void removeCartItem(Long userId, Long productId) {
-        CartItem cartItem = cartItemRepository.findByUserIdOrProductId(userId, productId);
+    public void removeCartItem(Long productId) {
+        CartItem cartItem = cartItemRepository.findByProductId(productId);
         if (cartItem != null) {
             cartItemRepository.delete(cartItem);
         }
     }
 
     @Override
-    public void updateCartItemQuantity(Long userId, Long productId, int quantity) {
-        CartItem cartItem = cartItemRepository.findByUserIdOrProductId(userId, productId);
+    public void updateCartItemQuantity(Long productId, int quantity) {
+        CartItem cartItem = cartItemRepository.findByProductId(productId);
         if (cartItem != null) {
             cartItem.setQuantity(quantity);
             cartItemRepository.save(cartItem);
@@ -52,8 +57,8 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     @Override
-    public List<CartItemDTO> getCartItems(Long userId) {
-        List<CartItem> cartItems = cartItemRepository.findByUserId(userId);
+    public List<CartItemDTO> getCartItems() {
+        List<CartItem> cartItems = cartItemRepository.findAll();
 
         return cartItems.stream()
                 .map(cartItemMapper::toCartItemDTO)
@@ -61,7 +66,7 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     @Override
-    public void clearCart(Long userId) {
-        cartItemRepository.deleteByUserId(userId);
+    public void clearCart() {
+        cartItemRepository.deleteAll();
     }
 }
