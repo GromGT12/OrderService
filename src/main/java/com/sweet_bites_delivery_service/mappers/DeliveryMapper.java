@@ -1,4 +1,5 @@
 package com.sweet_bites_delivery_service.mappers;
+
 import com.sweet_bites_delivery_service.dto.DeliveryDTO;
 import com.sweet_bites_delivery_service.model.Delivery;
 import org.mapstruct.Mapper;
@@ -19,6 +20,7 @@ public interface DeliveryMapper {
 
     Delivery toDelivery(DeliveryDTO deliveryDTO);
 
-    @Mapping(target = "id", ignore = true) // Игнорируем id, потому что он автогенерируемый
+    @Mapping(target = "id", ignore = true)
+        // Игнорируем id, потому что он автогенерируемый
     void updateDeliveryFromDto(DeliveryDTO deliveryDTO, @MappingTarget Delivery existingDelivery);
 }

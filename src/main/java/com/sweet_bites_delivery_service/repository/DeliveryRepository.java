@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Date;
 import java.util.List;
 
-
 @Repository
 public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
 
@@ -23,6 +22,4 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
     List<Delivery> findByDeliveryDateBetween(Date startDate, Date endDate);
 
     int countByDeliveryStatus(String deliveryStatus);
-
-
 }
