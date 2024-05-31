@@ -1,6 +1,7 @@
 package com.sweet_bites_delivery_service.model;
 
 import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
@@ -82,5 +83,8 @@ public class ShoppingCart {
                 ", totalPrice=" + totalPrice +
                 '}';
     }
-}
 
+    public <E> List getCartItems() {
+        return null;
+    }
+}

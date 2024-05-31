@@ -15,9 +15,6 @@ public class ShoppingCartDTO {
     private String shoppingMethod;
     private String paymentMethod;
 
-    public ShoppingCartDTO() {
-    }
-
     public Long getUserId() {
         return userId;
     }
