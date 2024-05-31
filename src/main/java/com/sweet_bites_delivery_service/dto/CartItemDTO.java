@@ -4,19 +4,31 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class CartItemDTO {
+    private Long id;
+    private Long shoppingCartId;
     private Long productId;
     private String productName;
     private Integer quantity;
     private BigDecimal price;
 
-    public CartItemDTO() {
+    public CartItemDTO(Long userId, Object o, int i, BigDecimal zero) {
+
     }
 
-    public CartItemDTO(Long productId, String productName, Integer quantity, BigDecimal price) {
-        this.productId = productId;
-        this.productName = productName;
-        this.quantity = quantity;
-        this.price = price;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getShoppingCartId() {
+        return shoppingCartId;
+    }
+
+    public void setShoppingCartId(Long shoppingCartId) {
+        this.shoppingCartId = shoppingCartId;
     }
 
     public Long getProductId() {
@@ -56,21 +68,24 @@ public class CartItemDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CartItemDTO that = (CartItemDTO) o;
-        return Objects.equals(productId, that.productId) && Objects.equals(productName, that.productName) && Objects.equals(quantity, that.quantity) && Objects.equals(price, that.price);
+        return Objects.equals(id, that.id) && Objects.equals(shoppingCartId, that.shoppingCartId) && Objects.equals(productId, that.productId) && Objects.equals(productName, that.productName) && Objects.equals(quantity, that.quantity) && Objects.equals(price, that.price);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productId, productName, quantity, price);
+        return Objects.hash(id, shoppingCartId, productId, productName, quantity, price);
     }
 
     @Override
     public String toString() {
         return "CartItemDTO{" +
-                "productId=" + productId +
+                "id=" + id +
+                ", shoppingCartId=" + shoppingCartId +
+                ", productId=" + productId +
                 ", productName='" + productName + '\'' +
                 ", quantity=" + quantity +
                 ", price=" + price +
                 '}';
     }
 }
+

@@ -1,15 +1,18 @@
 package com.sweet_bites_delivery_service.mappers;
 
+import com.sweet_bites_delivery_service.dto.CartItemDTO;
 import com.sweet_bites_delivery_service.dto.ShoppingCartDTO;
+import com.sweet_bites_delivery_service.model.CartItem;
 import com.sweet_bites_delivery_service.model.ShoppingCart;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface ShoppingCartMapper {
-    ShoppingCartMapper INSTANCE = Mappers.getMapper(ShoppingCartMapper.class);
+    ShoppingCart toShoppingCart(ShoppingCartDTO shoppingCartDTO);
 
     ShoppingCartDTO toShoppingCartDTO(ShoppingCart shoppingCart);
 
-    ShoppingCart toShoppingCart(ShoppingCartDTO shoppingCartDTO);
+    CartItem toCartItem(CartItemDTO cartItemDTO);
+
+    CartItemDTO toCartItemDTO(CartItem cartItem);
 }
