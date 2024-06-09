@@ -1,6 +1,7 @@
 package com.sweet_bites_delivery_service.dto;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class OrderDTO {
@@ -10,17 +11,19 @@ public class OrderDTO {
     private String status;
     private String deliveryAddress;
     private String paymentStatus;
+    private List<DeliveryDTO> deliveries;
 
     public OrderDTO() {
     }
 
-    public OrderDTO(Integer id, Integer clientId, Date orderDate, String status, String deliveryAddress, String paymentStatus) {
+    public OrderDTO(Integer id, Integer clientId, Date orderDate, String status, String deliveryAddress, String paymentStatus, List<DeliveryDTO> deliveries) {
         this.id = id;
         this.clientId = clientId;
         this.orderDate = orderDate;
         this.status = status;
         this.deliveryAddress = deliveryAddress;
         this.paymentStatus = paymentStatus;
+        this.deliveries = deliveries;
     }
 
     public Integer getId() {
@@ -71,17 +74,25 @@ public class OrderDTO {
         this.paymentStatus = paymentStatus;
     }
 
+    public List<DeliveryDTO> getDeliveries() {
+        return deliveries;
+    }
+
+    public void setDeliveries(List<DeliveryDTO> deliveries) {
+        this.deliveries = deliveries;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrderDTO orderDTO = (OrderDTO) o;
-        return Objects.equals(id, orderDTO.id) && Objects.equals(clientId, orderDTO.clientId) && Objects.equals(orderDate, orderDTO.orderDate) && Objects.equals(status, orderDTO.status) && Objects.equals(deliveryAddress, orderDTO.deliveryAddress) && Objects.equals(paymentStatus, orderDTO.paymentStatus);
+        return Objects.equals(id, orderDTO.id) && Objects.equals(clientId, orderDTO.clientId) && Objects.equals(orderDate, orderDTO.orderDate) && Objects.equals(status, orderDTO.status) && Objects.equals(deliveryAddress, orderDTO.deliveryAddress) && Objects.equals(paymentStatus, orderDTO.paymentStatus) && Objects.equals(deliveries, orderDTO.deliveries);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, clientId, orderDate, status, deliveryAddress, paymentStatus);
+        return Objects.hash(id, clientId, orderDate, status, deliveryAddress, paymentStatus, deliveries);
     }
 
     @Override
@@ -93,6 +104,7 @@ public class OrderDTO {
                 ", status='" + status + '\'' +
                 ", deliveryAddress='" + deliveryAddress + '\'' +
                 ", paymentStatus='" + paymentStatus + '\'' +
+                ", deliveries=" + deliveries +
                 '}';
     }
 }

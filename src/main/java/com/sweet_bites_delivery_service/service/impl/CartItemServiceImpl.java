@@ -6,6 +6,8 @@ import com.sweet_bites_delivery_service.model.CartItem;
 import com.sweet_bites_delivery_service.repository.CartItemRepository;
 import com.sweet_bites_delivery_service.service.CartItemService;
 import com.sweet_bites_delivery_service.validator.CartItemValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -17,13 +19,17 @@ import java.util.stream.Collectors;
 @Service
 @Transactional(readOnly = true)
 public class CartItemServiceImpl implements CartItemService {
+
+    private static final Logger logger = LoggerFactory.getLogger(CartItemServiceImpl.class);
+
     private final CartItemRepository cartItemRepository;
     private final CartItemValidator cartItemValidator;
     private final CartItemMapper cartItemMapper;
     private final KafkaTemplate<String, CartItemDTO> kafkaTemplate;
 
     @Autowired
-    public CartItemServiceImpl(CartItemRepository cartItemRepository, CartItemValidator cartItemValidator, CartItemMapper cartItemMapper, KafkaTemplate<String, CartItemDTO> kafkaTemplate) {
+    public CartItemServiceImpl(CartItemRepository cartItemRepository, CartItemValidator cartItemValidator,
+                               CartItemMapper cartItemMapper, KafkaTemplate<String, CartItemDTO> kafkaTemplate) {
         this.cartItemRepository = cartItemRepository;
         this.cartItemValidator = cartItemValidator;
         this.cartItemMapper = cartItemMapper;
@@ -31,28 +37,49 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     @Override
+    @Transactional
     public void addCartItem(CartItemDTO cartItemDTO) {
-        cartItemValidator.validateCartItem(cartItemDTO);
-        CartItem cartItem = cartItemMapper.toCartItem(cartItemDTO);
-        cartItemRepository.save(cartItem);
+        try {
+            cartItemValidator.validateCartItem(cartItemDTO);
+            CartItem cartItem = cartItemMapper.toCartItem(cartItemDTO);
+            cartItemRepository.save(cartItem);
 
-        kafkaTemplate.send("cart-item-topic", cartItemDTO);
-    }
-
-    @Override
-    public void removeCartItem(Long productId) {
-        CartItem cartItem = cartItemRepository.findByProductId(productId);
-        if (cartItem != null) {
-            cartItemRepository.delete(cartItem);
+            kafkaTemplate.send("cart-item-topic", cartItemDTO);
+            logger.info("Added cart item to Kafka topic: {}", cartItemDTO);
+        } catch (Exception e) {
+            logger.error("Error while adding cart item: {}", e.getMessage());
+            throw new RuntimeException("Failed to add cart item", e);
         }
     }
 
     @Override
+    @Transactional
+    public void removeCartItem(Long productId) {
+        try {
+            CartItem cartItem = cartItemRepository.findByProductId(productId);
+            if (cartItem != null) {
+                cartItemRepository.delete(cartItem);
+                logger.info("Removed cart item with productId: {}", productId);
+            }
+        } catch (Exception e) {
+            logger.error("Error while removing cart item: {}", e.getMessage());
+            throw new RuntimeException("Failed to remove cart item", e);
+        }
+    }
+
+    @Override
+    @Transactional
     public void updateCartItemQuantity(Long productId, int quantity) {
-        CartItem cartItem = cartItemRepository.findByProductId(productId);
-        if (cartItem != null) {
-            cartItem.setQuantity(quantity);
-            cartItemRepository.save(cartItem);
+        try {
+            CartItem cartItem = cartItemRepository.findByProductId(productId);
+            if (cartItem != null) {
+                cartItem.setQuantity(quantity);
+                cartItemRepository.save(cartItem);
+                logger.info("Updated cart item quantity: productId={}, quantity={}", productId, quantity);
+            }
+        } catch (Exception e) {
+            logger.error("Error while updating cart item quantity: {}", e.getMessage());
+            throw new RuntimeException("Failed to update cart item quantity", e);
         }
     }
 
@@ -66,7 +93,14 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     @Override
+    @Transactional
     public void clearCart() {
-        cartItemRepository.deleteAll();
+        try {
+            cartItemRepository.deleteAll();
+            logger.info("Cleared the cart");
+        } catch (Exception e) {
+            logger.error("Error while clearing the cart: {}", e.getMessage());
+            throw new RuntimeException("Failed to clear cart", e);
+        }
     }
 }
