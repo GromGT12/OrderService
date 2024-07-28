@@ -10,7 +10,7 @@ import java.util.Properties;
 public class DeliveryStatusProducer {
 
     private static final String TOPIC = "delivery_status";
-    private static final String BOOTSTRAP_SERVERS = "localhost:9092"; // адрес и порт брокера Kafka
+    private static final String BOOTSTRAP_SERVERS = "localhost:9092";
 
     private Producer<String, String> createProducer() {
         Properties props = new Properties();
@@ -34,10 +34,5 @@ public class DeliveryStatusProducer {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        DeliveryStatusProducer producer = new DeliveryStatusProducer();
-        producer.sendDeliveryStatus("order1", "{\"status\": \"delivered\"}");
     }
 }

@@ -1,45 +1,43 @@
 package com.sweet_bites_delivery_service.kafka;
 
-import org.apache.kafka.clients.consumer.*;
-import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
+import org.springframework.stereotype.Service;
+import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.util.concurrent.ListenableFutureCallback;
 
-import java.time.Duration;
-import java.util.Collections;
-import java.util.Properties;
+import java.util.concurrent.CompletableFuture;
 
+@Service
 public class DeliveryStatusConsumer {
 
-    private static final String TOPIC = "delivery_status";
-    private static final String BOOTSTRAP_SERVERS = "localhost:9092";
-    private static final String GROUP_ID = "delivery-status-consumer-group";
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
-    private Consumer<String, String> createConsumer() {
-        Properties props = new Properties();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, GROUP_ID);
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-        return new KafkaConsumer<>(props);
+    @Autowired
+    public DeliveryStatusConsumer(KafkaTemplate<String, String> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void consumeDeliveryStatus() {
-        try (Consumer<String, String> consumer = createConsumer()) {
-            consumer.subscribe(Collections.singletonList(TOPIC));
-            while (true) {
-                ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
-                for (ConsumerRecord<String, String> record : records) {
-                    System.out.printf("Received delivery status. Key: %s, Value: %s%n", record.key(), record.value());
-                    // Здесь можно добавить логику обработки статуса доставки
-                }
-                consumer.commitAsync(); // Асинхронный коммит оффсетов
+    public CompletableFuture<SendResult<String, String>> sendDeliveryStatus(String orderId, String statusJson) {
+        ProducerRecord<String, String> record = new ProducerRecord<>("delivery_status", orderId, statusJson);
+        ListenableFuture<SendResult<String, String>> listenableFuture = (ListenableFuture<SendResult<String, String>>) kafkaTemplate.send(record);
+
+        CompletableFuture<SendResult<String, String>> completableFuture = new CompletableFuture<>();
+
+        listenableFuture.addCallback(new ListenableFutureCallback<>() {
+            @Override
+            public void onSuccess(SendResult<String, String> result) {
+                completableFuture.complete(result);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
-    public static void main(String[] args) {
-        DeliveryStatusConsumer consumer = new DeliveryStatusConsumer();
-        consumer.consumeDeliveryStatus();
+            @Override
+            public void onFailure(Throwable ex) {
+                completableFuture.completeExceptionally(ex);
+            }
+        });
+
+        return completableFuture;
     }
 }

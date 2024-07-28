@@ -29,17 +29,11 @@ public class OrderConsumer {
                 ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
                 for (ConsumerRecord<String, String> record : records) {
                     System.out.printf("Received order. Key: %s, Value: %s%n", record.key(), record.value());
-                    // Здесь можно добавить логику обработки заказа
                 }
-                consumer.commitAsync(); // Асинхронный коммит оффсетов
+                consumer.commitAsync();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        OrderConsumer consumer = new OrderConsumer();
-        consumer.consumeOrders();
     }
 }

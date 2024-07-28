@@ -1,13 +1,16 @@
 package com.sweet_bites_delivery_service.kafka;
 
-import org.apache.kafka.clients.producer.*;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.ProducerRecord;
 
 import java.util.Properties;
 
 public class OrderProducer {
 
-    private final static String TOPIC = "orders";
-    private final static String BOOTSTRAP_SERVERS = "localhost:9092";
+    private static final String TOPIC = "orders";
+    private static final String BOOTSTRAP_SERVERS = "localhost:9092";
 
     private Producer<String, String> createProducer() {
         Properties props = new Properties();
@@ -32,9 +35,5 @@ public class OrderProducer {
             e.printStackTrace();
         }
     }
-
-    public static void main(String[] args) {
-        OrderProducer producer = new OrderProducer();
-        producer.sendOrder("order1", "{\"item\": \"item1\", \"quantity\": 1}");
-    }
 }
+
