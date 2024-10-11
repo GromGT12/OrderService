@@ -1,14 +1,11 @@
 package com.sweet_bites_delivery_service.kafka;
 
-import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
-
-import java.util.concurrent.CompletableFuture;
 
 @Service
 public class DeliveryStatusConsumer {
@@ -20,24 +17,22 @@ public class DeliveryStatusConsumer {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public CompletableFuture<SendResult<String, String>> sendDeliveryStatus(String orderId, String statusJson) {
-        ProducerRecord<String, String> record = new ProducerRecord<>("delivery_status", orderId, statusJson);
-        ListenableFuture<SendResult<String, String>> listenableFuture = (ListenableFuture<SendResult<String, String>>) kafkaTemplate.send(record);
+    public void sendDeliveryStatus(String orderId, String statusJson) {
+        // Отправка сообщения в Kafka
+        ListenableFuture<SendResult<String, String>> future = (ListenableFuture<SendResult<String, String>>) kafkaTemplate.send("delivery_status", orderId, statusJson);
 
-        CompletableFuture<SendResult<String, String>> completableFuture = new CompletableFuture<>();
-
-        listenableFuture.addCallback(new ListenableFutureCallback<>() {
+        future.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
             @Override
             public void onSuccess(SendResult<String, String> result) {
-                completableFuture.complete(result);
+                // Обработка успешной отправки
+                System.out.println("Message sent successfully: " + result.getProducerRecord());
             }
 
             @Override
             public void onFailure(Throwable ex) {
-                completableFuture.completeExceptionally(ex);
+                // Обработка ошибки отправки
+                System.err.println("Failed to send message: " + ex.getMessage());
             }
         });
-
-        return completableFuture;
     }
 }
