@@ -1,39 +1,22 @@
 package com.sweet_bites_delivery_service.kafka;
 
-import org.apache.kafka.clients.consumer.*;
-import org.apache.kafka.common.serialization.StringDeserializer;
+import com.sweet_bites_delivery_service.redis.DeliveryStatusService;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Service;
 
-import java.time.Duration;
-import java.util.Collections;
-import java.util.Properties;
-
+@Service
 public class OrderConsumer {
 
-    private static final String TOPIC = "orders";
-    private static final String BOOTSTRAP_SERVERS = "localhost:9092";
-    private static final String GROUP_ID = "order-consumer-group";
+    @Autowired
+    private DeliveryStatusService deliveryStatusService;
 
-    private Consumer<String, String> createConsumer() {
-        Properties props = new Properties();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, GROUP_ID);
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-        return new KafkaConsumer<>(props);
-    }
+    @KafkaListener(topics = "orders", groupId = "order-consumer-group")
+    public void listen(ConsumerRecord<String, String> record) {
+        System.out.printf("Received order. Key: %s, Value: %s%n", record.key(), record.value());
 
-    public void consumeOrders() {
-        try (Consumer<String, String> consumer = createConsumer()) {
-            consumer.subscribe(Collections.singletonList(TOPIC));
-            while (true) {
-                ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
-                for (ConsumerRecord<String, String> record : records) {
-                    System.out.printf("Received order. Key: %s, Value: %s%n", record.key(), record.value());
-                }
-                consumer.commitAsync();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Object deliveryStatus = deliveryStatusService.getDeliveryStatus(record.key());
+        System.out.printf("Delivery status for order %s: %s%n", record.key(), deliveryStatus);
     }
 }

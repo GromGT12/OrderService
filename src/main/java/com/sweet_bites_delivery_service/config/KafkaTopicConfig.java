@@ -39,4 +39,20 @@ public class KafkaTopicConfig {
                 .replicas(1)
                 .build();
     }
+
+    @Bean
+    public NewTopic deliveryStatusTopic() {
+        return TopicBuilder.name("delivery_status")
+                .partitions(1)
+                .replicas(1)
+                .build();
+    }
+
+    @Bean
+    public NewTopic dlqTopic() {
+        return TopicBuilder.name("dead-letter-queue")
+                .partitions(1)
+                .replicas(1)
+                .build();
+    }
 }

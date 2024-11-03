@@ -1,38 +1,65 @@
 package com.sweet_bites_delivery_service.kafka;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sweet_bites_delivery_service.dto.DeliveryDTO;
+import com.sweet_bites_delivery_service.service.OrderService;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
-import org.springframework.util.concurrent.ListenableFuture;
-import org.springframework.util.concurrent.ListenableFutureCallback;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
 
 @Service
 public class DeliveryStatusConsumer {
 
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private static final Logger logger = LoggerFactory.getLogger(DeliveryStatusConsumer.class);
+    @Autowired
+    private OrderService orderService;
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final Map<String, Consumer<DeliveryDTO>> statusHandlers = new HashMap<>();
 
     @Autowired
-    public DeliveryStatusConsumer(KafkaTemplate<String, String> kafkaTemplate) {
-        this.kafkaTemplate = kafkaTemplate;
+    public DeliveryStatusConsumer() {
+        statusHandlers.put("DELIVERED", this::handleDelivered);
+        statusHandlers.put("FAILED", this::handleFailed);
+        statusHandlers.put("IN_PROGRESS", this::handleInProgress);
     }
 
-    public void sendDeliveryStatus(String orderId, String statusJson) {
-        // Отправка сообщения в Kafka
-        ListenableFuture<SendResult<String, String>> future = (ListenableFuture<SendResult<String, String>>) kafkaTemplate.send("delivery_status", orderId, statusJson);
+    @KafkaListener(topics = "delivery_status", groupId = "delivery-group")
+    public void listenDeliveryStatus(ConsumerRecord<String, String> record) {
+        Integer orderId = Integer.valueOf(record.key());
+        String statusJson = record.value();
+        logger.info("Received delivery status update for Order ID: {}, Status: {}", orderId, statusJson);
 
-        future.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
-            @Override
-            public void onSuccess(SendResult<String, String> result) {
-                // Обработка успешной отправки
-                System.out.println("Message sent successfully: " + result.getProducerRecord());
-            }
+        try {
+            DeliveryDTO deliveryDTO = objectMapper.readValue(statusJson, DeliveryDTO.class);
+            orderService.updateOrderStatus(orderId, String.valueOf(deliveryDTO));
 
-            @Override
-            public void onFailure(Throwable ex) {
-                // Обработка ошибки отправки
-                System.err.println("Failed to send message: " + ex.getMessage());
-            }
-        });
+            statusHandlers.getOrDefault(deliveryDTO.getDeliveryStatus(), this::handleUnknown).accept(deliveryDTO);
+
+        } catch (Exception e) {
+            logger.error("Error processing delivery status for Order ID {}: {}", orderId, e.getMessage());
+        }
+    }
+
+    private void handleDelivered(DeliveryDTO delivery) {
+        logger.info("Order {} has been delivered.", delivery.getOrderId());
+    }
+
+    private void handleFailed(DeliveryDTO delivery) {
+        logger.warn("Delivery for order {} failed. Initiating error handling.", delivery.getOrderId());
+    }
+
+    private void handleInProgress(DeliveryDTO delivery) {
+        logger.info("Order {} is in progress.", delivery.getOrderId());
+    }
+
+    private void handleUnknown(DeliveryDTO delivery) {
+        logger.warn("Unknown delivery status for order {}", delivery.getOrderId());
     }
 }
