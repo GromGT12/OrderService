@@ -49,3 +49,8 @@ services:
 volumes:
   postgres-db:
     driver: local
+
+spring:
+  redis:
+    host: localhost
+    port: 6379

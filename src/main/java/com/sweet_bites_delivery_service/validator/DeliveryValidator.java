@@ -15,13 +15,8 @@ public class DeliveryValidator {
         List<String> violations = new ArrayList<>();
         validateId(deliveryDTO.getId(), violations);
         validateOrderId(deliveryDTO.getOrderId(), violations);
-
-        // Перегрузка для обработки Integer
         validatePositive(deliveryDTO.getQuantity(), "Quantity", violations);
-
-        // Для BigDecimal
         validatePositive(deliveryDTO.getTotalPrice(), "Total price", violations);
-
         validateFutureDate(deliveryDTO.getDeliveryDate(), violations);
         validateString(deliveryDTO.getDeliveryAddress(), "Delivery Address", violations);
         validateString(deliveryDTO.getDeliveryMethod(), "Delivery Method", violations);
