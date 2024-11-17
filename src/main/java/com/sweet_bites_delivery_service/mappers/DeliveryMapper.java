@@ -2,6 +2,7 @@ package com.sweet_bites_delivery_service.mappers;
 
 import com.sweet_bites_delivery_service.dto.DeliveryDTO;
 import com.sweet_bites_delivery_service.model.Delivery;
+import jakarta.validation.constraints.NotNull;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -22,5 +23,5 @@ public interface DeliveryMapper {
 
     @Mapping(target = "id", ignore = true)
         // Игнорируем id, потому что он автогенерируемый
-    void updateDeliveryFromDto(DeliveryDTO deliveryDTO, @MappingTarget Delivery existingDelivery);
+    void updateDeliveryFromDto(@NotNull DeliveryDTO deliveryDTO, @MappingTarget Delivery existingDelivery);
 }

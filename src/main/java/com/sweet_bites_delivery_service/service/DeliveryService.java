@@ -1,6 +1,7 @@
 package com.sweet_bites_delivery_service.service;
 
 import com.sweet_bites_delivery_service.dto.DeliveryDTO;
+import com.sweet_bites_delivery_service.dto.OrderDTO;
 
 import java.util.Date;
 import java.util.List;
@@ -23,4 +24,5 @@ public interface DeliveryService {
     DeliveryDTO getDeliveryById(Long id);
 
     void deleteDelivery(Long id);
+
 }
