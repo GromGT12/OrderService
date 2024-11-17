@@ -1,5 +1,6 @@
 package com.sweet_bites_delivery_service.repository;
 
+import com.sweet_bites_delivery_service.dto.OrderDTO;
 import com.sweet_bites_delivery_service.model.Delivery;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,4 +23,5 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
     List<Delivery> findByDeliveryDateBetween(Date startDate, Date endDate);
 
     int countByDeliveryStatus(String deliveryStatus);
+
 }

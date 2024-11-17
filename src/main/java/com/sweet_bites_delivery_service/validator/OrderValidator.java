@@ -27,7 +27,7 @@ public class OrderValidator {
     public void validateOrder(OrderDTO orderDTO) {
 
         List<String> violations = new ArrayList<>();
-        validateId(orderDTO.getId(), violations);
+        validateId(Math.toIntExact(orderDTO.getId()), violations);
         validateClientId(orderDTO.getClientId(), violations);
         validateOrderDate(orderDTO.getOrderDate(), violations);
         validateStringOnlyLetters(orderDTO.getStatus(), "Status", violations);
